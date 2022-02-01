@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cicr_flutter_app/Screens/Dashboard.dart';
+import 'package:cicr_flutter_app/Screens/UI/Registration.dart';
 import 'package:cicr_flutter_app/Screens/UI/background.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class Login_Page extends StatefulWidget {
 class _Login_PageState extends State<Login_Page> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String phone,password,remember,forgot,login,guest,register,newUser;
+  String Invalid_Mobile_Number,server_error;
+  String snackbar1,snackbar2;
 
   String language;
 
@@ -45,6 +48,10 @@ class _Login_PageState extends State<Login_Page> {
        guest = "Guest Login";
        register = "Register Now";
        newUser = "New User?";
+       Invalid_Mobile_Number = "Invalid Mobile Number or Password";
+       server_error = "Server Error";
+       snackbar1 = "Please enter valid Number";
+       snackbar2 = "Please enter valid Password";
         break;
 
       case "Mar":
@@ -54,8 +61,12 @@ class _Login_PageState extends State<Login_Page> {
         forgot = "पासवर्ड विसरलात?";
         login = "लॉगिन करा";
         guest = "अतिथी लॉगिन";
-        register = "अाता नोंदणी करा";
+        register = "आता नोंदणी करा";
         newUser = "नवीन वापरकर्ता?";
+        Invalid_Mobile_Number = "अवैध मोबाईल नंबर किंवा पासवर्ड";
+        server_error = "सर्व्हर त्रुटी";
+        snackbar1 = "कृपया वैध क्रमांक प्रविष्ट करा";
+        snackbar2 = "कृपया वैध पासवर्ड टाका";
         break;
 
       case "Hin":
@@ -67,6 +78,10 @@ class _Login_PageState extends State<Login_Page> {
         guest = "मेहमान लॉगइन करें";
         register = "अभी पंजीकरण करें";
         newUser = "नए उपयोगकर्ता?";
+        Invalid_Mobile_Number = "अमान्य मोबाइल नंबर या पासवर्ड";
+        server_error = "सर्वर त्रुटि";
+        snackbar1 = "कृपया मान्य संख्या दर्ज करें";
+        snackbar2 = "कृपया मान्य पासवर्ड दर्ज करें";
         break;
 
       case "Gu":
@@ -78,6 +93,10 @@ class _Login_PageState extends State<Login_Page> {
         guest = "મહેમાન લૉગિન";
         register = "અત્યારે નોંધાવો";
         newUser = "નવા વપરાશકર્તા?";
+        Invalid_Mobile_Number = "અમાન્ય મોબાઇલ નંબર અથવા પાસવર્ડ";
+        server_error = "સર્વર ભૂલ";
+        snackbar1 = "કૃપા કરીને માન્ય નંબર દાખલ કરો";
+        snackbar2 = "કૃપા કરીને માન્ય પાસવર્ડ દાખલ કરો";
         break;
 
       case "Kan":
@@ -89,6 +108,10 @@ class _Login_PageState extends State<Login_Page> {
         guest = "ಅತಿಥಿ ಲಾಗಿನ್";
         register = "ಈಗ ನೋಂದಣಿ ಮಾಡಿ";
         newUser = "ಹೊಸ ಬಳಕೆದಾರ?";
+        Invalid_Mobile_Number = "ಅಮಾನ್ಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
+        server_error = "ಸರ್ವರ್ ದೋಷ";
+        snackbar1 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ";
+        snackbar2 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
         break;
 
     }
@@ -384,26 +407,11 @@ class _Login_PageState extends State<Login_Page> {
                                 //     },
                                 //   ),
                                 // );
-                                // Navigator.of(context).push(PageRouteBuilder(
-                                //     pageBuilder:
-                                //         (context, animation, anotherAnimation) {
-                                //       return Customer_Signup();
-                                //     },
-                                //     transitionDuration:
-                                //     Duration(milliseconds: 2000),
-                                //     transitionsBuilder: (context, animation,
-                                //         anotherAnimation, child) {
-                                //       animation = CurvedAnimation(
-                                //           curve: Curves.elasticOut,
-                                //           parent: animation);
-                                //       return Align(
-                                //         child: SizeTransition(
-                                //           sizeFactor: animation,
-                                //           child: child,
-                                //           axisAlignment: 0.0,
-                                //         ),
-                                //       );
-                                //     }));
+                                Navigator.of(context).push(PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation, anotherAnimation) {
+                                      return Registration();
+                                    }));
                               },
                               child: Text(
                                 register,
@@ -437,11 +445,11 @@ class _Login_PageState extends State<Login_Page> {
 
     if ((loginNumberController.text.isEmpty ||
         loginNumberController.text.length < 10)) {
-      showInSnackBar("Please enter valid Number");
+      showInSnackBar(snackbar1);
       return null;
     }
     if (loginPasswordController.text.isEmpty) {
-      showInSnackBar("Please enter valid Password");
+      showInSnackBar(snackbar2);
       return null;
     } else {
       _showBottomLoader();
@@ -480,10 +488,10 @@ class _Login_PageState extends State<Login_Page> {
 
         }else{
           print(responseJson['message']);
-          showInSnackBar("Invalid Mobile Number or Password");
+          showInSnackBar(Invalid_Mobile_Number);
         }
       }else{
-        showInSnackBar("Server Error");
+        showInSnackBar(server_error);
       }
     }
   }
@@ -512,7 +520,7 @@ class _Login_PageState extends State<Login_Page> {
           prefs.setString("fullName", responseJson['fullname']);
           prefs.setString("mobile", responseJson['mobile_no']);
           prefs.setString("profilePic", responseJson['profile_pic']);
-          // prefs.setString("isLogin", "1");
+          prefs.setString("isLogin", "1");
           // showInSnackBar("Login Successfully");
           Navigator.pushAndRemoveUntil(
             context,
@@ -521,10 +529,10 @@ class _Login_PageState extends State<Login_Page> {
           );
         }else{
           print(responseJson['message']);
-          showInSnackBar("Invalid Mobile Number or Password");
+          showInSnackBar(Invalid_Mobile_Number);
         }
       }else{
-        showInSnackBar("Server Error");
+        showInSnackBar(server_error);
       }
   }
 

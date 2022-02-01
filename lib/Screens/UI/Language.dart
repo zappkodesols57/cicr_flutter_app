@@ -1,6 +1,7 @@
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class Language extends StatefulWidget {
   const Language({Key key}) : super(key: key);
 
@@ -8,10 +9,9 @@ class Language extends StatefulWidget {
   _LanguageState createState() => _LanguageState();
 }
 
-
 class _LanguageState extends State<Language> {
   SharedPreferences language;
-
+  String _isLogin;
 
 
   @override
@@ -29,6 +29,7 @@ class _LanguageState extends State<Language> {
 
   getCredentials() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isLogin = prefs.getString("isLogin");
     language = prefs;
   }
 
@@ -37,7 +38,7 @@ class _LanguageState extends State<Language> {
     return new Scaffold(
       appBar: AppBar(
         title: Text("Select The Language"),
-        leading: IconButton(
+        leading:  (_isLogin != null) ? IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
@@ -45,6 +46,9 @@ class _LanguageState extends State<Language> {
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
+        )
+        : SizedBox(
+          width: 0.1,
         ),
       ),
 
