@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.0.6
   font_awesome_flutter: ^8.10.0
   http: ^0.13.3
+  carousel_pro: ^1.0.0
   flutter_spinkit: ^4.1.2
 
 
@@ -70,6 +71,20 @@ flutter:
     - assets/slider1.webp
     - assets/slider2.webp
     - assets/slider3.webp
+    - assets/one.jpg
+    - assets/two.jpg
+    - assets/three.jpg
+    - assets/four.jpg
+    - assets/five.jpg
+    - assets/six.jpg
+    - assets/seven.jpg
+    - assets/eight.jpg
+    - assets/nine.jpg
+    - assets/ten.jpg
+    - assets/eleven.jpg
+    - assets/twelve.jpg
+    - assets/thirteen.jpg
+
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
