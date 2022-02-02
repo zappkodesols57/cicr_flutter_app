@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:cicr_flutter_app/Screens/Dashboard.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/HomeScreen.dart';
 import 'package:cicr_flutter_app/Screens/UI/Registration.dart';
 import 'package:cicr_flutter_app/Screens/UI/background.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +10,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+
+import 'Forgot.dart';
 
 class Login_Page extends StatefulWidget {
   const Login_Page({Key key}) : super(key: key);
@@ -298,14 +300,14 @@ class _Login_PageState extends State<Login_Page> {
                           padding: EdgeInsets.only(left: 10.0),
                           child: FlatButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) {
-                                //       return Customer_Forget();
-                                //     },
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return FogotPass();
+                                    },
+                                  ),
+                                );
                               },
                               child: Text(
                                 forgot,
@@ -482,7 +484,7 @@ class _Login_PageState extends State<Login_Page> {
 
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
                 (Route<dynamic> route) => false,
           );
 
@@ -524,7 +526,7 @@ class _Login_PageState extends State<Login_Page> {
           // showInSnackBar("Login Successfully");
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => Dashboard()),
+            MaterialPageRoute(builder: (context) => HomeScreen()),
                 (Route<dynamic> route) => false,
           );
         }else{

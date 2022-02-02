@@ -89,11 +89,6 @@ class _LanguageState extends State<Language> {
                      language.setString("language", "Eng");
 
                   });
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login_Page()),
-                        (Route<dynamic> route) => false,
-                  );
                 },
               ),
             ),
@@ -119,11 +114,6 @@ class _LanguageState extends State<Language> {
                     language.setString("language", "Mar");
 
                   });
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login_Page()),
-                        (Route<dynamic> route) => false,
-                  );
                 },
               ),
             ),
@@ -149,11 +139,6 @@ class _LanguageState extends State<Language> {
                     language.setString("language", "Hin");
 
                   });
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login_Page()),
-                        (Route<dynamic> route) => false,
-                  );
                 },
               ),
             ),
@@ -179,11 +164,6 @@ class _LanguageState extends State<Language> {
                     language.setString("language", "Guj");
 
                   });
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login_Page()),
-                        (Route<dynamic> route) => false,
-                  );
                 },
               ),
             ),
@@ -209,14 +189,62 @@ class _LanguageState extends State<Language> {
                     language.setString("language", "Kan");
 
                   });
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => Login_Page()),
-                        (Route<dynamic> route) => false,
-                  );
                 },
               ),
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(35.0)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(1.0, 6.0),
+                    blurRadius: 20.0,
+                  ),
+                  BoxShadow(
+                    color: Colors.white,
+                    offset: Offset(1.0, 6.0),
+                    blurRadius: 20.0,
+                  ),
+                ],
+                gradient: new LinearGradient(
+                    colors: [
+                      Colors.green.shade600,
+                      Colors.green,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+              child: MaterialButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 42.0),
+                    child: Text(
+                      "Select",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22.0,
+                          fontFamily: "PoppinsBold"),
+                    ),
+                  ),
+                  onPressed: () {
+                    if(_english == true || _marathi == true || _hindi == true || _gujarati == true || _kannada == true){
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login_Page()),
+                            (Route<dynamic> route) => false,
+                      );
+                    }else{
+                      return null;
+                    }
+
+                  }),
+            ),
           ],
         ),
       ),
