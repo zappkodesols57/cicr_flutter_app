@@ -1,6 +1,13 @@
 import 'package:cicr_flutter_app/Screens/Dashboard.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/AskMe.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/ContactUs.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/About%20App.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/CICR%20Directory.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Discussion%20Forum.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Farmer%20Felicitation.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Important%20Website.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Settings.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Success%20Story.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Gallery.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/News.dart';
 import 'package:flutter/material.dart';
@@ -141,9 +148,9 @@ class HomeScreenState extends State<HomeScreen> {
                   color: Colors.green,
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DiscussionForum()));
                 },
               ),
               Divider(
@@ -163,9 +170,9 @@ class HomeScreenState extends State<HomeScreen> {
 
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ImpWebsite()));
                 },
               ),
               Divider(
@@ -185,9 +192,9 @@ class HomeScreenState extends State<HomeScreen> {
 
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Felicitation()));
                 },
               ),
               Divider(
@@ -207,9 +214,9 @@ class HomeScreenState extends State<HomeScreen> {
 
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SuccessStory()));
                 },
               ),
               Divider(
@@ -229,9 +236,9 @@ class HomeScreenState extends State<HomeScreen> {
 
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CICRDirectory()));
                 },
               ),
               Divider(
@@ -251,9 +258,9 @@ class HomeScreenState extends State<HomeScreen> {
 
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AboutApp()));
                 },
               ),
               Divider(
@@ -272,9 +279,9 @@ class HomeScreenState extends State<HomeScreen> {
                   color: Colors.green,
                 ),
                 onTap: (){
-                  // Navigator.of(context).pop();
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => ManageParkingSpace()));
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Settings()));
                 },
               ),
             ],
