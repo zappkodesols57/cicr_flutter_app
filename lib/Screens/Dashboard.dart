@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key key}) : super(key: key);
+  String language;
+  Dashboard(this.language);
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -12,73 +13,80 @@ class Dashboard extends StatefulWidget {
 
 
 class _DashboardState extends State<Dashboard> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // String language;
 
   @override
   void initState() {
     autoFill();
   }
 
+  String varieties,production,protection,facts,farmer,weekly;
+
+
+  // @override
+  // void initState() {
+  //   autoFill();
+  // }
+
   Future<void> autoFill() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // language = prefs.getString("language");
+    // print(prefs.getString("language"));
 
-    // switch (language) {
-    //   case "Eng":
-    //     drawer1 = "Discussion Forum";
-    //     drawer2 = "Important Website";
-    //     drawer3 = "Farmer Felicitation";
-    //     drawer4 = "Success Story";
-    //     drawer5 = "CICR Directory";
-    //     drawer6 = "About App";
-    //     drawer7 = "Settings";
-    //
-    //     break;
-    //
-    //   case "Mar":
-    //     drawer1 = "चर्चा मंच";
-    //     drawer2 = "महत्वाची वेबसाईट";
-    //     drawer3 = "शेतकरी सत्कार";
-    //     drawer4 = "यशोगाथा";
-    //     drawer5 = "CICR निर्देशिका";
-    //     drawer6 = "अॅप बद्दल";
-    //     drawer7 = "सेटिंग्ज";
-    //
-    //     break;
-    //
-    //   case "Hin":
-    //     drawer1 = "चर्चा मंच";
-    //     drawer2 = "महत्वपूर्ण वेबसाइट";
-    //     drawer3 = "किसान अभिनंदन";
-    //     drawer4 = "सफलता की कहानी";
-    //     drawer5 = "CICR निर्देशिका";
-    //     drawer6 = "ऐप के बारे में";
-    //     drawer7 = "समायोजन";
-    //
-    //     break;
-    //
-    //   case "Gu":
-    //     drawer1 = "ચર્ચા મંચ";
-    //     drawer2 = "મહત્વપૂર્ણ વેબસાઈટ";
-    //     drawer3 = "ખેડૂત સન્માન";
-    //     drawer4 = "સક્સેસ સ્ટોરી";
-    //     drawer5 = "CICR ડિરેક્ટરી";
-    //     drawer6 = "એપ્લિકેશન વિશે";
-    //     drawer7 = "સેટિંગ્સ";
-    //
-    //     break;
-    //
-    //   case "Kan":
-    //     drawer1 = "ಚರ್ಚಾ ವೇದಿಕೆ";
-    //     drawer2 = "ಪ್ರಮುಖ ವೆಬ್‌ಸೈಟ್";
-    //     drawer3 = "ರೈತ ಸನ್ಮಾನ";
-    //     drawer4 = "ಯಶಸ್ಸಿನ ಕಥೆ";
-    //     drawer5 = "CICR ಡೈರೆಕ್ಟರಿ";
-    //     drawer6 = "ಅಪ್ಲಿಕೇಶನ್ ಬಗ್ಗೆ";
-    //     drawer7 = "ಸಂಯೋಜನೆಗಳು";
-    //
-    //     break;
-    //
-    // }
+    switch (widget.language) {
+      case "Eng":
+        varieties = "Varieties And Hybrid";
+        production = "Production Technology";
+        protection = "Protection Technology";
+        facts = "Facts And Figures";
+        farmer = "Farmers Outreach";
+        weekly = "Weekly Report";
+
+        break;
+
+      case "Mar":
+        varieties = "वाण आणि संकरित";
+        production = "उत्पादन तंत्रज्ञान";
+        protection = "संरक्षण तंत्रज्ञान";
+        facts = "तथ्ये आणि आकडेवारी";
+        farmer = "शेतकरी पोहोच";
+        weekly = "साप्ताहिक अहवाल";
+
+        break;
+
+      case "Hin":
+        varieties = "किस्में और हाइब्रिड";
+        production = "उत्पादन प्रौद्योगिकी";
+        protection = "संरक्षण प्रौद्योगिकी";
+        facts = "तथ्य और आंकड़े";
+        farmer = "किसान आउटरीच";
+        weekly = "साप्ताहिक विवरण";
+
+        break;
+
+      case "Gu":
+        varieties = "જાતો અને હાઇબ્રિડ";
+        production = "ઉત્પાદન ટેકનોલોજી";
+        protection = "પ્રોટેક્શન ટેકનોલોજી";
+        facts = "હકીકતો અને આંકડા";
+        farmer = "ખેડૂતો આઉટરીચ";
+        weekly = "અઠવાડિક અહેવાલ";
+
+        break;
+
+      case "Kan":
+        varieties = "ಪ್ರಭೇದಗಳು ಮತ್ತು ಹೈಬ್ರಿಡ್";
+        production = "ಉತ್ಪಾದನಾ ತಂತ್ರಜ್ಞಾನ";
+        protection = "ರಕ್ಷಣೆ ತಂತ್ರಜ್ಞಾನ";
+        facts = "ಸಂಗತಿಗಳು ಮತ್ತು ಅಂಕಿಅಂಶಗಳು";
+        farmer = "ರೈತರ ಔಟ್ರೀಚ್";
+        weekly = "ವಾರದ ವರದಿ";
+
+        break;
+
+    }
     setState(() {});
   }
 
@@ -86,6 +94,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       // appBar: AppBar(
       //   title: Text("CICR"),
       // ),
@@ -158,9 +167,9 @@ class _DashboardState extends State<Dashboard> {
                               color: Colors.green,
                             ),
                             // height: 20.0,
-                            padding: EdgeInsets.all( 3.0),
+                            padding: EdgeInsets.all(3.0),
                             width: 125.0,
-                            child: Text("Varieties And Hybrid",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(varieties??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
@@ -193,7 +202,7 @@ class _DashboardState extends State<Dashboard> {
                             // height: 20.0,
                             padding: EdgeInsets.all( 3.0),
                             width: 125.0,
-                            child: Text("Production Technology",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(production??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
@@ -233,7 +242,7 @@ class _DashboardState extends State<Dashboard> {
                             // height: 20.0,
                             padding: EdgeInsets.all( 3.0),
                             width: 125.0,
-                            child: Text("Protection Technology",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(protection??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
@@ -266,7 +275,7 @@ class _DashboardState extends State<Dashboard> {
                             // height: 20.0,
                             padding: EdgeInsets.all( 3.0),
                             width: 125.0,
-                            child: Text("Facts And Figures",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(facts??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
@@ -306,7 +315,7 @@ class _DashboardState extends State<Dashboard> {
                             // height: 20.0,
                             padding: EdgeInsets.all( 3.0),
                             width: 125.0,
-                            child: Text("Farmers Outreach",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(farmer??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
@@ -339,12 +348,13 @@ class _DashboardState extends State<Dashboard> {
                             // height: 20.0,
                             padding: EdgeInsets.all( 3.0),
                             width: 125.0,
-                            child: Text("Weekly Report",textAlign: TextAlign.center,style: TextStyle(
+                            child: Text(weekly??"",textAlign: TextAlign.center,style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
                                 fontWeight: FontWeight.bold
-                            ),),
-                          )
+                            ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
