@@ -10,6 +10,7 @@ import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Settings.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Success%20Story.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Gallery.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/News.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Weather.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,17 +25,11 @@ class HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
   //list of widgets to call ontap
-  final widgetOptions = [
-    new Dashboard(),
-    new AskMe(),
-    new TabContact(0),
-    new Gallery(),
-    new News(),
-  ];
 
   String drawer1,drawer2,drawer3,drawer4,drawer5,drawer6,drawer7;
 
   String language;
+
 
 
   void onItemTapped(int index) {
@@ -117,12 +112,29 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final widgetOptions = [
+      new Dashboard(language),
+      new AskMe(),
+      new ContactUs(),
+      new Gallery(),
+      new News(),
+    ];
     return new Scaffold(
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
       ),
       appBar: AppBar(
         title: Text("CICR"),
+        actions: [
+          IconButton(
+            onPressed: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Weather()));
+            },
+            icon: Icon(FontAwesomeIcons.cloudSunRain),
+          ),
+          SizedBox(width: 10.0,),
+        ],
         ),
       drawer: Container(
         width: 260,

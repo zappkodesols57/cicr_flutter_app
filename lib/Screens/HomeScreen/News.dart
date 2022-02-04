@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:cicr_flutter_app/Model/Model_news.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -18,10 +16,8 @@ class _NewsState extends State<News> {
   final ScrollController _controller = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-
   String title,language;
   String api;
-
 
   @override
   void initState() {
@@ -66,7 +62,6 @@ class _NewsState extends State<News> {
 
   Future<NewsPojo> getBills() async {
 
-
     final res = await http.post(
       Uri.parse(api),
     );
@@ -98,8 +93,7 @@ class _NewsState extends State<News> {
                   return Center(
                     child: Center(
                         child: CircularProgressIndicator(
-                          valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.green),
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
                         )),
                   );
                 else {
@@ -108,14 +102,18 @@ class _NewsState extends State<News> {
                       controller: _controller,
                       thickness: 3.0,
                       child: ListView.builder(
-                        padding: const EdgeInsets.only(
-                            bottom: kFloatingActionButtonMargin + 52),
+                        // padding: const EdgeInsets.only(
+                        //     bottom: kFloatingActionButtonMargin + 52),
                         shrinkWrap: true,
                         reverse: false,
                         controller: _controller,
                         itemBuilder: (bui, index) {
                           return new Card(
-                            elevation: 10.0,
+                            elevation: 3.0,
+                            shadowColor: Colors.green,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 8.0,top: 10.0),
                               child: ListTile(
@@ -151,6 +149,4 @@ class _NewsState extends State<News> {
       ),
     );
   }
-
-
 }
