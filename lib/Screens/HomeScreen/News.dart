@@ -133,15 +133,6 @@ class _NewsState extends State<News> {
                                       fontSize: 12.0),
                                   textAlign: TextAlign.end,),
                                 leading: Image.asset("assets/logo.png",height: 30.0,width: 30.0,),
-                                // trailing: Wrap(
-                                //   direction: Axis.vertical,
-                                //   spacing: 5, // space between two icons
-                                //   crossAxisAlignment: WrapCrossAlignment.end,
-                                //   children: <Widget>[
-                                //     SizedBox(height: 10,),
-                                //
-                                //   ],
-                                // ),
                                 onTap: () {
                                   launch(snapshot.data.news[index].url);
                                 },

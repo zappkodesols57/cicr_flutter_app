@@ -27,7 +27,7 @@ class HomeScreenState extends State<HomeScreen> {
   final widgetOptions = [
     new Dashboard(),
     new AskMe(),
-    new ContactUs(),
+    new TabContact(0),
     new Gallery(),
     new News(),
   ];
