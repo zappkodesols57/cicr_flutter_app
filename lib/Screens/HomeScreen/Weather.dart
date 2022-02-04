@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Weather extends StatefulWidget {
-  const Weather({Key key}) : super(key: key);
+  String cityName = "";
+   Weather(this.cityName);
 
   @override
   _WeatherState createState() => _WeatherState();
 }
 
 class _WeatherState extends State<Weather> {
-  String cityName;
 
   double temp = 0.0;
   double feels = 0.0;
@@ -32,11 +31,10 @@ class _WeatherState extends State<Weather> {
   Future<void> validateweather() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-     cityName = "Nagpur" ;
 
 
     final response = await http.get(
-      Uri.parse("https://api.openweathermap.org/data/2.5/weather?q="+cityName+"&units=metric&appid=03a5bfdc4ea08ec3aa0b01fc2aa7203a"));
+      Uri.parse("https://api.openweathermap.org/data/2.5/weather?q="+widget.cityName+"&units=metric&appid=03a5bfdc4ea08ec3aa0b01fc2aa7203a"));
 
     var responseJson = json.decode(response.body);
     print(response.body);
@@ -48,7 +46,7 @@ class _WeatherState extends State<Weather> {
         humid = responseJson['main']['humidity'];
         max = responseJson['main']['temp_max'];
         min = responseJson['main']['temp_min'];
-        weather = responseJson['weather'][0]['description'];
+        weather = responseJson['weather'][0]['main'];
       });
     }else{
       return null;
@@ -74,100 +72,126 @@ class _WeatherState extends State<Weather> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.green.shade200,
-              Colors.green.shade800
-            ]
-          )
+          image: DecorationImage(
+              image: AssetImage("assets/mountain.jpg"),
+              fit: BoxFit.fill,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken)
+          ),
         ),
         padding: EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 30.0),
+                  padding: EdgeInsets.only(top: 60.0),
                   alignment: Alignment.center,
-                  child: Text("Nagpur",
+                  child: Text(widget.cityName,
                   style: TextStyle(
+                    fontFamily: "PoppinsBold",
                     color: Colors.white,
-                    fontSize: 30.0,
+                    fontSize: 35.0,
                   ),
                   ),
                 ),
+                // Container(
+                //   padding: EdgeInsets.only(top: 10.0),
+                //   child: Icon(
+                //     FontAwesomeIcons.cloudSun,
+                //     color: Colors.white,
+                //     size: 80.0,
+                //   ),
+                // ),
+                Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(top: 40.0,bottom: 0.0),
+                      alignment: Alignment.bottomCenter,
+                      child: Text("${temp.toInt()}°c",
+                        style: TextStyle(
+                          fontFamily: "PoppinsBold",
+                          color: Colors.white,
+                          fontSize: 70.0,
+                        ),
+                      ),
+                    ),
+
+                    Positioned(
+                      top: 110,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.only(right: 20.0),
+                        alignment: Alignment.center,
+                        child: Text("---------",
+                          style: TextStyle(
+                            fontFamily: "PoppinsBold",
+                            color: Colors.white,
+                            fontSize: 30.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
                 Container(
-                  padding: EdgeInsets.only(top: 10.0),
+                  padding: EdgeInsets.only(top: 20.0),
                   alignment: Alignment.center,
                   child: Text(weather,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15.0,
-                  ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Icon(
-                    FontAwesomeIcons.cloudSun,
-                    color: Colors.white,
-                    size: 80.0,
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  alignment: Alignment.center,
-                  child: Text("${temp}°c",
                     style: TextStyle(
+                      fontFamily: "PoppinsMedium",
                       color: Colors.white,
-                      fontSize: 40.0,
+                      fontSize: 20.0,
                     ),
                   ),
                 ),
+
                 Container(
                   padding: EdgeInsets.only(top: 10.0),
                   alignment: Alignment.center,
-                  child: Text("Feels Like ${feels}°c",
+                  child: Text("${min.toInt()}°c / ${max.toInt()}°c",
                     style: TextStyle(
+                      fontFamily: "PoppinsBold",
                       color: Colors.white,
-                      fontSize: 40.0,
+                      fontSize: 25.0,
                     ),
                   ),
                 ),
+
                 Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  alignment: Alignment.center,
-                  child: Text("Humidity ${humid}%",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.0,
-                    ),
+                  padding: EdgeInsets.only(top: 70.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: 10.0),
+                        alignment: Alignment.center,
+                        child: Text("Feels Like ${feels.toInt()}°c",
+                          style: TextStyle(
+                            fontFamily: "PoppinsMedium",
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 10.0),
+                        alignment: Alignment.center,
+                        child: Text("Humidity ${humid}%",
+                          style: TextStyle(
+                            fontFamily: "PoppinsMedium",
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  alignment: Alignment.center,
-                  child: Text("Min ${min}°c",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.0,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 10.0),
-                  alignment: Alignment.center,
-                  child: Text("Max ${max}°c",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40.0,
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),
