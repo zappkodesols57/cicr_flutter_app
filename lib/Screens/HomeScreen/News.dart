@@ -71,7 +71,6 @@ class _NewsState extends State<News> {
     if (200 == res.statusCode) {
       print(newsFromJson(res.body).news.length);
       return newsFromJson(res.body);
-      // print(newsFromJson(NewsModel[0].title));
     } else {
       throw Exception('Failed to load data');
     }

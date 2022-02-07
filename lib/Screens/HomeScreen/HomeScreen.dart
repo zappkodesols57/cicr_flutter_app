@@ -15,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -120,9 +122,9 @@ class HomeScreenState extends State<HomeScreen> {
     final widgetOptions = [
       new Dashboard(language),
       new AskMe(),
-      new TabContact(0),
       new Gallery(),
       new News(),
+      new TabContact(0),
     ];
     return new Scaffold(
       body: Center(
@@ -321,12 +323,6 @@ class HomeScreenState extends State<HomeScreen> {
               label: "Ask Me"),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.call,
-                color: Colors.white,
-              ),
-              label: "Contact Us"),
-          BottomNavigationBarItem(
-              icon: Icon(
                 Icons.photo,
                 color: Colors.white,
               ),
@@ -337,6 +333,12 @@ class HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               label: "News"),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.call,
+                color: Colors.white,
+              ),
+              label: "Contact Us"),
         ],
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,

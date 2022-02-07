@@ -161,7 +161,7 @@ class _LanguageState extends State<Language> {
                     _hindi = false;
                     _kannada = false;
 
-                    language.setString("language", "Guj");
+                    language.setString("language", "Gu");
 
                   });
                 },

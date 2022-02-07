@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:cicr_flutter_app/Model/gallaryModel.dart';
+import 'package:cicr_flutter_app/Model/Model_gallary.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 class Gallery extends StatefulWidget {
@@ -30,7 +28,8 @@ class _GalleryState extends State<Gallery> {
                               style:TextStyle(
                                 fontSize: 15.0,
                                 color: Colors.lightGreen,
-                              )),
+                              ),
+                          ),
                         ),
                         onTap: (){
                           Navigator.push(
