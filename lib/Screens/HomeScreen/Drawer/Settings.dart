@@ -12,6 +12,10 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_ios)),
       ),
     );
   }

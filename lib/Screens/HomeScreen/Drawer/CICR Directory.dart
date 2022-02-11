@@ -12,6 +12,10 @@ class _CICRDirectoryState extends State<CICRDirectory> {
     return Scaffold(
       appBar: AppBar(
         title: Text("CICR Directory"),
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_ios)),
       ),
     );
   }

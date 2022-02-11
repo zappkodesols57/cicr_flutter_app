@@ -60,7 +60,7 @@ class _NagpurState extends State<Nagpur> {
                 borderRadius: BorderRadius.circular(20.0),
               ),
               dense: false,
-              title: Text("ICAR- Central Institute For Cotton Research, \nPost Bag No.2, Shankar Nagar PO, \nNagpur(Maharashtra), India, \nPin Code - 440010"),
+              title: Text("ICAR- Central Institute For Cotton Research, \nPost Bag No.2, Shankar Nagar PO, \nNagpur(Maharashtra), India, \nPin Code - 440010",textAlign: TextAlign.start,),
               leading: Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: Icon(Icons.location_on,size: 30,color: Colors.green,),

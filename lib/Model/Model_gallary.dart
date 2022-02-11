@@ -18,13 +18,13 @@ class GalleryModel {
   List<GalleryView> gallery;
 
   factory GalleryModel.fromJson(Map<String, dynamic> json) => GalleryModel(
-    status: json["status"],
-    gallery: List<GalleryView>.from(json["gallery"].map((x) => GalleryView.fromJson(x))),
+    status: json["message"],
+    gallery: List<GalleryView>.from(json["albumlist"].map((x) => GalleryView.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "gallery": List<dynamic>.from(gallery.map((x) => x.toJson())),
+    "message": status,
+    "albumlist": List<dynamic>.from(gallery.map((x) => x.toJson())),
 
   };
 }

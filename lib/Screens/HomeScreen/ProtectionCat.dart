@@ -1,44 +1,103 @@
-import 'package:cicr_flutter_app/Model/Model_gallary.dart';
+import 'package:cicr_flutter_app/Model/Model_ProtectionCat.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'GalleryDetail.dart';
-
-class Gallery extends StatefulWidget {
-  const Gallery({Key key}) : super(key: key);
+import 'WebView.dart';
+class ProtectionCategory extends StatefulWidget {
+  String id, file, category;
+  ProtectionCategory(this.id,this.file,this.category);
 
   @override
-  _GalleryState createState() => _GalleryState();
+  _ProtectionCategoryState createState() => _ProtectionCategoryState();
 }
 
-class _GalleryState extends State<Gallery> {
+class _ProtectionCategoryState extends State<ProtectionCategory> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final ScrollController _controller = ScrollController();
-      @override
-      void initState() {
-        getAlbum();
-      }
 
-  Future<GalleryModel> getAlbum() async {
+  String api, language;
+
+  @override
+  void initState() {
+    autoFill();
+  }
+
+  Future<void> autoFill() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    language = prefs.getString("language");
+
+    switch (language) {
+      case "Eng":
+        api =
+        "https://www.zappkode.com/cicr/english/webservices/Protection_technology/get_protection_info";
+        break;
+
+      case "Mar":
+        api =
+        "https://www.zappkode.com/cicr/marathi/webservices/Protection_technology/get_protection_info";
+
+        break;
+
+      case "Hin":
+        api =
+        "https://www.zappkode.com/cicr/hindi/webservices/Protection_technology/get_protection_info";
+
+        break;
+
+      case "Gu":
+        api =
+        "https://www.zappkode.com/cicr/gujarati/webservices/Protection_technology/get_protection_info";
+
+        break;
+
+      case "Kan":
+        api =
+        "https://www.zappkode.com/cicr/kannada/webservices/Protection_technology/get_protection_info";
+
+        break;
+    }
+    setState(() {});
+  }
+
+  Future<ProtectionCatM> getProtectionM() async {
+    String id = widget.id;
+
+
+    final param = {
+      "category_id": id,
+    };
+
+    print(param);
+
     final res = await http.post(
-      Uri.parse("https://www.zappkode.com/cicr/english/webservices/gallery/albumlist"));
+      Uri.parse(api),
+      body: param,
+    );
+
     print(res.body);
     print(res.statusCode);
     if (200 == res.statusCode) {
-      return galleryFromJson(res.body);
+      print(protectionCatFromJson(res.body).list.length);
+      return protectionCatFromJson(res.body);
     } else {
-      throw Exception('Failed to load Bills');
+      throw Exception('Failed to load List');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Colors.white,
-        body: FutureBuilder<GalleryModel>(
-        future: getAlbum(),
-        builder: (BuildContext context, AsyncSnapshot<GalleryModel> snapshot) {
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text(widget.category),
+      ),
+      backgroundColor: Colors.white,
+      body: FutureBuilder<ProtectionCatM>(
+        future: getProtectionM(),
+        builder:
+            (BuildContext context, AsyncSnapshot<ProtectionCatM> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(
               child: Center(
@@ -67,7 +126,7 @@ class _GalleryState extends State<Gallery> {
                 controller: _controller,
                 thickness: 3.0,
                 child: ListView.builder(
-                    itemCount: snapshot.data.gallery.length,
+                    itemCount: snapshot.data.list.length,
                     shrinkWrap: true,
                     reverse: false,
                     controller: _controller,
@@ -76,7 +135,7 @@ class _GalleryState extends State<Gallery> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(5, 3, 5, 0),
                           child: Hero(
-                            tag: snapshot.data.gallery[index].id.toString(),
+                            tag: snapshot.data.list[index].title.toString(),
                             child: new Card(
                               elevation: 5.0,
                               child: Padding(
@@ -85,18 +144,36 @@ class _GalleryState extends State<Gallery> {
                                 child: ListTile(
                                   dense: true,
                                   title: Text(
-                                      snapshot.data.gallery[index].name,
+                                      snapshot.data.list[index].title,
                                       style: TextStyle(
                                           fontSize: 15.0,
                                           fontFamily: "PoppinsMedium",
                                           color: Colors.green,
                                           fontWeight: FontWeight.bold)),
-                                  leading: Container(
+                                  leading: (snapshot.data.list[index].file.isEmpty)
+                                      ? Container(
+                                    width: 40.0,
+                                    height: 40.0,
+                                    decoration: new BoxDecoration(
+                                      color: Colors.green,
+                                      borderRadius:
+                                      new BorderRadius.circular(25.0),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: new Text("C",
+                                      style: TextStyle(
+                                        fontSize: 23.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.normal,
+                                        fontFamily: "PoppinsLight",
+                                      ),
+                                    ),
+                                  )
+                                      : Container(
                                     width: 60,
                                     height: 60,
                                     child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          snapshot.data.gallery[index].file),
+                                      backgroundImage: NetworkImage(snapshot.data.list[index].file),
                                       radius: 20.0,
                                       backgroundColor: Colors.white,
                                     ),
@@ -107,7 +184,7 @@ class _GalleryState extends State<Gallery> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => GalleryDetail(snapshot.data.gallery[index].name)));
+                                            builder: (context) => WebViewPage(snapshot.data.list[index].file,snapshot.data.list[index].title,snapshot.data.list[index].des,)));
                                   },
                                 ),
                               ),
@@ -123,7 +200,9 @@ class _GalleryState extends State<Gallery> {
               );
           }
         },
-      )
+      ),
     );
   }
+
+  getVarieties(String s) {}
 }

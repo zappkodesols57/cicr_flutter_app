@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cicr_flutter_app/Model/Model_VarietiesCat.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

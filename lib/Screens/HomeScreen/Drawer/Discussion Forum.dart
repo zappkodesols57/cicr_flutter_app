@@ -12,6 +12,10 @@ class _DiscussionForumState extends State<DiscussionForum> {
     return Scaffold(
       appBar: AppBar(
         title:Text("Discussion Forum"),
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_ios)),
       ),
       body:Center(child: Text("Discussion Forum")),
     );

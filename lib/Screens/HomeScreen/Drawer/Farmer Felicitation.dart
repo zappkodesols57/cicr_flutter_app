@@ -12,6 +12,10 @@ class _FelicitationState extends State<Felicitation> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Farmer Felicitation "),
+        leading: IconButton(
+            onPressed: (){
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back_ios)),
       ),
       body: Center(child: Text("Farmer Felicitation")),
     );

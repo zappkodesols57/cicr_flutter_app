@@ -3,6 +3,7 @@ import 'package:cicr_flutter_app/Screens/HomeScreen/AskMe.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/ContactUs.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/About%20App.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/CICR%20Directory.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/ChangePass.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Discussion%20Forum.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Farmer%20Felicitation.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Important%20Website.dart';
@@ -15,8 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
+import 'GalleryDetail.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -61,7 +62,7 @@ class HomeScreenState extends State<HomeScreen> {
         drawer4 = "Success Story";
         drawer5 = "CICR Directory";
         drawer6 = "About App";
-        drawer7 = "Settings";
+        drawer7 = "Change Password";
         cityName = "Enter Your City Name";
 
         break;
@@ -73,7 +74,7 @@ class HomeScreenState extends State<HomeScreen> {
         drawer4 = "यशोगाथा";
         drawer5 = "CICR निर्देशिका";
         drawer6 = "अॅप बद्दल";
-        drawer7 = "सेटिंग्ज";
+        drawer7 = "पासवर्ड बदला";
         cityName = "तुमच्या शहराचे नाव एंटर करा";
 
         break;
@@ -85,7 +86,7 @@ class HomeScreenState extends State<HomeScreen> {
         drawer4 = "सफलता की कहानी";
         drawer5 = "CICR निर्देशिका";
         drawer6 = "ऐप के बारे में";
-        drawer7 = "समायोजन";
+        drawer7 = "पासवर्ड बदलें";
         cityName = "अपने शहर का नाम दर्ज करें";
 
         break;
@@ -97,7 +98,7 @@ class HomeScreenState extends State<HomeScreen> {
         drawer4 = "સક્સેસ સ્ટોરી";
         drawer5 = "CICR ડિરેક્ટરી";
         drawer6 = "એપ્લિકેશન વિશે";
-        drawer7 = "સેટિંગ્સ";
+        drawer7 = "પાસવર્ડ બદલો";
         cityName = "તમારા શહેરનું નામ દાખલ કરો";
 
         break;
@@ -109,7 +110,7 @@ class HomeScreenState extends State<HomeScreen> {
         drawer4 = "ಯಶಸ್ಸಿನ ಕಥೆ";
         drawer5 = "CICR ಡೈರೆಕ್ಟರಿ";
         drawer6 = "ಅಪ್ಲಿಕೇಶನ್ ಬಗ್ಗೆ";
-        drawer7 = "ಸಂಯೋಜನೆಗಳು";
+        drawer7 = "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ";
         cityName = "ನಿಮ್ಮ ನಗರದ ಹೆಸರನ್ನು ನಮೂದಿಸಿ";
 
         break;
@@ -122,9 +123,9 @@ class HomeScreenState extends State<HomeScreen> {
     final widgetOptions = [
       new Dashboard(language),
       new AskMe(),
+      new TabContact(0),
       new Gallery(),
       new News(),
-      new TabContact(0),
     ];
     return new Scaffold(
       body: Center(
@@ -279,7 +280,7 @@ class HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AboutApp()));
+                      MaterialPageRoute(builder: (context) => TabAboutApp(0)));
                 },
               ),
               Divider(
@@ -300,7 +301,7 @@ class HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Settings()));
+                      MaterialPageRoute(builder: (context) => ChangePass()));
                 },
               ),
             ],
@@ -323,6 +324,12 @@ class HomeScreenState extends State<HomeScreen> {
               label: "Ask Me"),
           BottomNavigationBarItem(
               icon: Icon(
+                Icons.call,
+                color: Colors.white,
+              ),
+              label: "Contact Us"),
+          BottomNavigationBarItem(
+              icon: Icon(
                 Icons.photo,
                 color: Colors.white,
               ),
@@ -333,12 +340,6 @@ class HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
               label: "News"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.call,
-                color: Colors.white,
-              ),
-              label: "Contact Us"),
         ],
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
