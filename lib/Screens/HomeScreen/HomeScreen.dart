@@ -43,7 +43,7 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  final widgetTitle = ["Home", "Ask Me", "Contact Us", "Gallery", "News"];
+  final widgetTitle = ["Home", "Ask Me", "Gallery", "News", "Contact Us"];
 
   @override
   void initState() {
@@ -123,9 +123,9 @@ class HomeScreenState extends State<HomeScreen> {
     final widgetOptions = [
       new Dashboard(language),
       new AskMe(),
-      new TabContact(0),
       new Gallery(),
       new News(),
+      new TabContact(0),
     ];
     return new Scaffold(
       body: Center(
