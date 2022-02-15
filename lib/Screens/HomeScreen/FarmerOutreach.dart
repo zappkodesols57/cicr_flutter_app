@@ -1,17 +1,18 @@
 import 'package:cicr_flutter_app/Model/Model_ProtectionCat.dart';
+import 'package:cicr_flutter_app/Model/Model_farmerOutCat.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'WebView.dart';
-class ProtectionCategory extends StatefulWidget {
+class FarmerOutreachCat extends StatefulWidget {
   String id, file, category;
-  ProtectionCategory(this.id,this.file,this.category);
+  FarmerOutreachCat(this.id,this.file,this.category);
 
   @override
-  _ProtectionCategoryState createState() => _ProtectionCategoryState();
+  _FarmerOutreachCatState createState() => _FarmerOutreachCatState();
 }
 
-class _ProtectionCategoryState extends State<ProtectionCategory> {
+class _FarmerOutreachCatState extends State<FarmerOutreachCat> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final ScrollController _controller = ScrollController();
@@ -30,37 +31,37 @@ class _ProtectionCategoryState extends State<ProtectionCategory> {
     switch (language) {
       case "Eng":
         api =
-        "https://www.zappkode.com/cicr/english/webservices/Protection_technology/get_protection_info";
+        "http://www.zappkode.com/cicr/english/webservices/farmer_outreach/getOutreach";
         break;
 
       case "Mar":
         api =
-        "https://www.zappkode.com/cicr/marathi/webservices/Protection_technology/get_protection_info";
+        "http://www.zappkode.com/cicr/marathi/webservices/farmer_outreach/getOutreach";
 
         break;
 
       case "Hin":
         api =
-        "https://www.zappkode.com/cicr/hindi/webservices/Protection_technology/get_protection_info";
+        "http://www.zappkode.com/cicr/hindi/webservices/farmer_outreach/getOutreach";
 
         break;
 
       case "Gu":
         api =
-        "https://www.zappkode.com/cicr/gujarati/webservices/Protection_technology/get_protection_info";
+        "http://www.zappkode.com/cicr/gujarati/webservices/farmer_outreach/getOutreach";
 
         break;
 
       case "Kan":
         api =
-        "https://www.zappkode.com/cicr/kannada/webservices/Protection_technology/get_protection_info";
+        "http://www.zappkode.com/cicr/kannada/webservices/farmer_outreach/getOutreach";
 
         break;
     }
     setState(() {});
   }
 
-  Future<ProtectionCatM> getProtectionM() async {
+  Future<Farmercategory> getFarmerOutreachCat() async {
     String id = widget.id;
 
 
@@ -78,8 +79,8 @@ class _ProtectionCategoryState extends State<ProtectionCategory> {
     print(res.body);
     print(res.statusCode);
     if (200 == res.statusCode) {
-      print(protectionCatFromJson(res.body).list.length);
-      return protectionCatFromJson(res.body);
+      print(farmerCatCatFromJson(res.body).list.length);
+      return farmerCatCatFromJson(res.body);
     } else {
       throw Exception('Failed to load List');
     }
@@ -96,10 +97,10 @@ class _ProtectionCategoryState extends State<ProtectionCategory> {
         }, icon: Icon(Icons.arrow_back_ios)),
       ),
       backgroundColor: Colors.white,
-      body: FutureBuilder<ProtectionCatM>(
-        future: getProtectionM(),
+      body: FutureBuilder<Farmercategory>(
+        future: getFarmerOutreachCat(),
         builder:
-            (BuildContext context, AsyncSnapshot<ProtectionCatM> snapshot) {
+            (BuildContext context, AsyncSnapshot<Farmercategory> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(
               child: Center(
@@ -186,7 +187,7 @@ class _ProtectionCategoryState extends State<ProtectionCategory> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => WebViewPage(snapshot.data.list[index].file,snapshot.data.list[index].title,snapshot.data.list[index].des,)));
+                                            builder: (context) => WebViewPage(snapshot.data.list[index].file,snapshot.data.list[index].title,snapshot.data.list[index].description,)));
                                   },
                                 ),
                               ),

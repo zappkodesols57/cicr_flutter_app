@@ -93,90 +93,104 @@ class _ImpWebsiteState extends State<ImpWebsite> {
           Navigator.pop(context);
         }, icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder<ImpWeb>(
-               future: getImpWeb(),
-              builder: (ctx, AsyncSnapshot<ImpWeb> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting)
-                  return Center(
-                    child: Center(
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-                        )),
-                  );
-                else {
-                  return Scrollbar(
-                    isAlwaysShown: true,
-                    controller: _controller,
-                    thickness: 3.0,
-                    child: ListView.builder(
-                      // padding: const EdgeInsets.only(
-                      //     bottom: kFloatingActionButtonMargin + 52),
-                      shrinkWrap: true,
-                      reverse: false,
-                      controller: _controller,
-                      itemBuilder: (bui, index) {
-                        return new Card(
-                          elevation: 5.0,
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 8.0, bottom: 8.0),
-                            child: ListTile(
-                              dense: true,
-                              title: Text(
-                                  snapshot.data.web[index].title,
-                                  style: TextStyle(
-                                      fontSize: 15.0,
-                                      fontFamily: "PoppinsMedium",
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold)),
-                              leading: (snapshot.data.web[index].file.isEmpty)
-                                  ? Container(
-                                width: 40.0,
-                                height: 40.0,
-                                decoration: new BoxDecoration(
+      body: FutureBuilder<ImpWeb>(
+        future: getImpWeb(),
+        builder:
+            (BuildContext context, AsyncSnapshot<ImpWeb> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting)
+            return Center(
+              child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  )),
+            );
+          else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(
+              child: Text("No Data Found !"),
+            );
+          } else {
+            if (snapshot.hasData) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (_controller.hasClients) {
+                  _controller.animateTo(_controller.position.minScrollExtent,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.fastLinearToSlowEaseIn);
+                } else {
+                  setState(() => null);
+                }
+              });
+              return Scrollbar(
+                isAlwaysShown: true,
+                controller: _controller,
+                thickness: 3.0,
+                child:ListView.builder(
+                  // padding: const EdgeInsets.only(
+                  //     bottom: kFloatingActionButtonMargin + 52),
+                  shrinkWrap: true,
+                  reverse: false,
+                  controller: _controller,
+                  itemBuilder: (bui, index) {
+                    return new Card(
+                      elevation: 5.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, bottom: 8.0),
+                        child: ListTile(
+                          dense: true,
+                          title: Text(
+                              snapshot.data.web[index].title,
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: "PoppinsMedium",
                                   color: Colors.green,
-                                  borderRadius:
-                                  new BorderRadius.circular(25.0),
-                                ),
-                                alignment: Alignment.center,
-                                child: new Text("C",
-                                  style: TextStyle(
-                                    fontSize: 23.0,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.normal,
-                                    fontFamily: "PoppinsLight",
-                                  ),
-                                ),
-                              )
-                                  : Container(
-                                width: 50,
-                                height: 50,
-                                child: CircleAvatar(
-                                  backgroundImage: NetworkImage(snapshot.data.web[index].file),
-                                  radius: 20.0,
-                                  backgroundColor: Colors.white,
-                                ),
+                                  fontWeight: FontWeight.bold)),
+                          leading: (snapshot.data.web[index].file.isEmpty)
+                              ? Container(
+                            width: 40.0,
+                            height: 40.0,
+                            decoration: new BoxDecoration(
+                              color: Colors.green,
+                              borderRadius:
+                              new BorderRadius.circular(25.0),
+                            ),
+                            alignment: Alignment.center,
+                            child: new Text("C",
+                              style: TextStyle(
+                                fontSize: 23.0,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: "PoppinsLight",
                               ),
-                              trailing: Icon(Icons.arrow_forward_ios_sharp,
-                                  color: Colors.green),
-                              onTap: () {
-                               launch(snapshot.data.web[index].url);
-                              },
+                            ),
+                          )
+                              : Container(
+                            width: 50,
+                            height: 50,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(snapshot.data.web[index].file),
+                              radius: 20.0,
+                              backgroundColor: Colors.white,
                             ),
                           ),
-                        );
-                      },
-                      itemCount: snapshot.data.web.length,
-                    ),
-                  );
-                }
-              },
-            ),
-          ),
-        ],
+                          trailing: Icon(Icons.arrow_forward_ios_sharp,
+                              color: Colors.green),
+                          onTap: () {
+                            launch(snapshot.data.web[index].url);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data.web.length,
+                ),
+              );
+            } else //`snapShot.hasData` can be false if the `snapshot.data` is null
+              return Center(
+                child: Text("No Data Found"),
+              );
+          }
+        },
       ),
     );
   }

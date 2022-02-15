@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Weather extends StatefulWidget {
   String cityName = "";
-   Weather(this.cityName);
+  Weather(this.cityName);
 
   @override
   _WeatherState createState() => _WeatherState();
@@ -22,6 +22,8 @@ class _WeatherState extends State<Weather> {
   int humid = 0;
   String weather = "";
 
+  double wind = 0.0;
+
 
   @override
   void initState() {
@@ -34,7 +36,7 @@ class _WeatherState extends State<Weather> {
 
 
     final response = await http.get(
-      Uri.parse("https://api.openweathermap.org/data/2.5/weather?q="+widget.cityName+"&units=metric&appid=03a5bfdc4ea08ec3aa0b01fc2aa7203a"));
+        Uri.parse("https://api.openweathermap.org/data/2.5/weather?q="+widget.cityName+"&units=metric&appid=03a5bfdc4ea08ec3aa0b01fc2aa7203a"));
 
     var responseJson = json.decode(response.body);
     print(response.body);
@@ -47,6 +49,7 @@ class _WeatherState extends State<Weather> {
         max = responseJson['main']['temp_max'];
         min = responseJson['main']['temp_min'];
         weather = responseJson['weather'][0]['main'];
+        wind = responseJson['wind']['speed'];
       });
     }else{
       return null;
@@ -88,21 +91,21 @@ class _WeatherState extends State<Weather> {
                   padding: EdgeInsets.only(top: 60.0),
                   alignment: Alignment.center,
                   child: Text(widget.cityName,
-                  style: TextStyle(
-                    fontFamily: "PoppinsBold",
-                    color: Colors.white,
-                    fontSize: 35.0,
-                  ),
+                    style: TextStyle(
+                      fontFamily: "PoppinsBold",
+                      color: Colors.white,
+                      fontSize: 35.0,
+                    ),
                   ),
                 ),
-                // Container(
-                //   padding: EdgeInsets.only(top: 10.0),
-                //   child: Icon(
-                //     FontAwesomeIcons.cloudSun,
-                //     color: Colors.white,
-                //     size: 80.0,
-                //   ),
-                // ),
+// Container(
+// padding: EdgeInsets.only(top: 10.0),
+// child: Icon(
+// FontAwesomeIcons.cloudSun,
+// color: Colors.white,
+// size: 80.0,
+// ),
+// ),
                 Stack(
                   children: [
                     Container(
@@ -150,9 +153,9 @@ class _WeatherState extends State<Weather> {
                 Container(
                   padding: EdgeInsets.only(top: 10.0),
                   alignment: Alignment.center,
-                  child: Text("${min.toInt()}°c / ${max.toInt()}°c",
+                  child: Text("Wind $wind kmpl",
                     style: TextStyle(
-                      fontFamily: "PoppinsBold",
+                      fontFamily: "PoppinsMedium",
                       color: Colors.white,
                       fontSize: 25.0,
                     ),

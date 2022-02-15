@@ -121,7 +121,17 @@ class _RegistrationState extends State<Registration> {
     setState(() {});
   }
 
+  void _toggleSignup() {
+    setState(() {
+      _obscureTextSignup = !_obscureTextSignup;
+    });
+  }
 
+  void _toggleSignupConfirm() {
+    setState(() {
+      _obscureTextSignupConfirm = !_obscureTextSignupConfirm;
+    });
+  }
 
 
 
@@ -344,7 +354,7 @@ class _RegistrationState extends State<Registration> {
                             fontSize: 15.0,
                             color: Colors.green),
                         suffixIcon: GestureDetector(
-                          // onTap: _toggleSignup,
+                          onTap: _toggleSignup,
                           child: Icon(
                             _obscureTextSignup
                                 ? FontAwesomeIcons.eyeSlash
@@ -399,7 +409,7 @@ class _RegistrationState extends State<Registration> {
                             fontSize: 15.0,
                             color: Colors.green),
                         suffixIcon: GestureDetector(
-                          // onTap: _toggleSignupConfirm,
+                          onTap: _toggleSignupConfirm,
                           child: Icon(
                             _obscureTextSignupConfirm
                                 ? FontAwesomeIcons.eyeSlash

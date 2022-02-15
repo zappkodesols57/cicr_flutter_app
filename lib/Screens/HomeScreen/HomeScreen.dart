@@ -7,7 +7,7 @@ import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/ChangePass.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Discussion%20Forum.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Farmer%20Felicitation.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Important%20Website.dart';
-import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Settings.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Profile.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Success%20Story.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Gallery.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/News.dart';
@@ -29,11 +29,12 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
-  //list of widgets to call ontap
+//list of widgets to call ontap
 
-  String drawer1, drawer2, drawer3, drawer4, drawer5, drawer6, drawer7;
+  String drawer, drawer1, drawer2, drawer3, drawer4, drawer5, drawer6, drawer7,drawer8;
 
   String language, cityName;
+  String home, ask, gallery, news, contact;
 
   TextEditingController cityController = new TextEditingController();
 
@@ -56,6 +57,7 @@ class HomeScreenState extends State<HomeScreen> {
 
     switch (language) {
       case "Eng":
+        drawer = "Profile";
         drawer1 = "Discussion Forum";
         drawer2 = "Important Website";
         drawer3 = "Farmer Felicitation";
@@ -63,11 +65,18 @@ class HomeScreenState extends State<HomeScreen> {
         drawer5 = "CICR Directory";
         drawer6 = "About App";
         drawer7 = "Change Password";
+        drawer8 = "Logout";
         cityName = "Enter Your City Name";
+        home = "Home";
+        ask = "Ask Me";
+        gallery = "Gallery";
+        news = "News";
+        contact = "Contact Us";
 
         break;
 
       case "Mar":
+        drawer = "प्रोफ़ाइल";
         drawer1 = "चर्चा मंच";
         drawer2 = "महत्वाची वेबसाईट";
         drawer3 = "शेतकरी सत्कार";
@@ -75,11 +84,18 @@ class HomeScreenState extends State<HomeScreen> {
         drawer5 = "CICR निर्देशिका";
         drawer6 = "अॅप बद्दल";
         drawer7 = "पासवर्ड बदला";
+        drawer8 = "बाहेर पडणे";
         cityName = "तुमच्या शहराचे नाव एंटर करा";
+        home = "मुख्यपृष्ठ";
+        ask = "मला विचार";
+        gallery = "गॅलरी";
+        news = "बातम्या";
+        contact = "आमच्याशी संपर्क साधा";
 
         break;
 
       case "Hin":
+        drawer = "प्रोफ़ाइल";
         drawer1 = "चर्चा मंच";
         drawer2 = "महत्वपूर्ण वेबसाइट";
         drawer3 = "किसान अभिनंदन";
@@ -87,11 +103,18 @@ class HomeScreenState extends State<HomeScreen> {
         drawer5 = "CICR निर्देशिका";
         drawer6 = "ऐप के बारे में";
         drawer7 = "पासवर्ड बदलें";
+        drawer8 = "लॉग आउट";
         cityName = "अपने शहर का नाम दर्ज करें";
+        home = "घर";
+        ask = "मुझसे पूछें";
+        gallery = "गेलरी";
+        news = "समाचार";
+        contact = "संपर्क करें";
 
         break;
 
       case "Gu":
+        drawer = "પ્રોફાઇલ";
         drawer1 = "ચર્ચા મંચ";
         drawer2 = "મહત્વપૂર્ણ વેબસાઈટ";
         drawer3 = "ખેડૂત સન્માન";
@@ -99,19 +122,32 @@ class HomeScreenState extends State<HomeScreen> {
         drawer5 = "CICR ડિરેક્ટરી";
         drawer6 = "એપ્લિકેશન વિશે";
         drawer7 = "પાસવર્ડ બદલો";
+        drawer8 = "લૉગ આઉટ";
         cityName = "તમારા શહેરનું નામ દાખલ કરો";
+        home = "ઘર";
+        ask = "મને પૂછો";
+        gallery = "ગેલેરી";
+        news = "સમાચાર";
+        contact = "અમારો સંપર્ક કરો";
 
         break;
 
       case "Kan":
+        drawer = "ಪ್ರೊಫೈಲ್";
         drawer1 = "ಚರ್ಚಾ ವೇದಿಕೆ";
-        drawer2 = "ಪ್ರಮುಖ ವೆಬ್‌ಸೈಟ್";
+        drawer2 = "ಪ್ರಮುಖ ವೆಬ್ಸೈಟ್";
         drawer3 = "ರೈತ ಸನ್ಮಾನ";
         drawer4 = "ಯಶಸ್ಸಿನ ಕಥೆ";
         drawer5 = "CICR ಡೈರೆಕ್ಟರಿ";
         drawer6 = "ಅಪ್ಲಿಕೇಶನ್ ಬಗ್ಗೆ";
         drawer7 = "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ";
+        drawer8 = "ಲಾಗ್ ಔಟ್";
         cityName = "ನಿಮ್ಮ ನಗರದ ಹೆಸರನ್ನು ನಮೂದಿಸಿ";
+        home = "ಮನೆ";
+        ask = "ನನ್ನನ್ನು ಕೇಳಿ";
+        gallery = "ಗ್ಯಾಲರಿ";
+        news = "ಸುದ್ದಿ";
+        contact = "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ";
 
         break;
     }
@@ -154,9 +190,32 @@ class HomeScreenState extends State<HomeScreen> {
               DrawerHeader(
                 child: Image.asset(
                   "assets/logo.png",
-                  height: 120.0,
+                  height: 100.0,
                 ),
                 padding: EdgeInsets.only(right: 10),
+              ),
+              ListTile(
+                dense: true,
+                title: Text(drawer,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "PoppinsMedium")),
+                leading: Icon(
+                  FontAwesomeIcons.user,
+                  color: Colors.green,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Profile()));
+                },
+              ),
+              Divider(
+                color: Colors.green,
               ),
               ListTile(
                 dense: true,
@@ -304,6 +363,30 @@ class HomeScreenState extends State<HomeScreen> {
                       MaterialPageRoute(builder: (context) => ChangePass()));
                 },
               ),
+              Divider(
+                color: Colors.green,
+              ),
+              ListTile(
+                dense: true,
+                title: Text(drawer8,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "PoppinsMedium")),
+                leading: Icon(
+                  FontAwesomeIcons.powerOff,
+                  color: Colors.green,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => TabAboutApp(0)));
+                },
+              ),
+              Divider(
+                color: Colors.green,
+              ),
             ],
           ),
         ),
@@ -315,31 +398,31 @@ class HomeScreenState extends State<HomeScreen> {
                 Icons.home,
                 color: Colors.white,
               ),
-              label: "Home"),
+              label: home),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.question_answer,
                 color: Colors.white,
               ),
-              label: "Ask Me"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.call,
-                color: Colors.white,
-              ),
-              label: "Contact Us"),
+              label: ask),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.photo,
                 color: Colors.white,
               ),
-              label: "Gallery"),
+              label: gallery),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.event_note_outlined,
                 color: Colors.white,
               ),
-              label: "News"),
+              label: news),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.call,
+                color: Colors.white,
+              ),
+              label: contact),
         ],
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -348,9 +431,9 @@ class HomeScreenState extends State<HomeScreen> {
         selectedLabelStyle: TextStyle(color: Colors.white, fontSize: 13),
         unselectedFontSize: 12,
         selectedIconTheme:
-            IconThemeData(color: Colors.white, opacity: 1.0, size: 24.0),
+        IconThemeData(color: Colors.white, opacity: 1.0, size: 24.0),
         unselectedIconTheme:
-            IconThemeData(color: Colors.white70, size: 15.0, opacity: 2.0),
+        IconThemeData(color: Colors.white70, size: 15.0, opacity: 2.0),
         unselectedItemColor: Colors.white70,
         unselectedLabelStyle: TextStyle(fontSize: 10, color: Colors.white),
         backgroundColor: Colors.green,
@@ -399,16 +482,16 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       counterText: "",
                       contentPadding:
-                          const EdgeInsets.symmetric(vertical: 13.0),
+                      const EdgeInsets.symmetric(vertical: 13.0),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green, width: 0.5),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(35.0)),
+                        const BorderRadius.all(Radius.circular(35.0)),
                       ),
                       focusedBorder: new OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green, width: 0.5),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(35.0)),
+                        const BorderRadius.all(Radius.circular(35.0)),
                       ),
                       prefixIcon: Icon(
                         FontAwesomeIcons.city,
@@ -431,7 +514,9 @@ class HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancel', style: TextStyle(color: Colors.white, fontFamily: "PoppinsMedium")),
+              child: Text('Cancel',
+                  style: TextStyle(
+                      color: Colors.white, fontFamily: "PoppinsMedium")),
               color: Colors.red,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0)),
@@ -440,15 +525,17 @@ class HomeScreenState extends State<HomeScreen> {
                 color: Colors.green,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0)),
-                child: Text('Done', style: TextStyle(color: Colors.white, fontFamily: "PoppinsMedium")),
+                child: Text('Done',
+                    style: TextStyle(
+                        color: Colors.white, fontFamily: "PoppinsMedium")),
                 onPressed: () {
                   if (cityController.text.isNotEmpty) {
                     Navigator.of(context).pop();
                     Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Weather(cityController.text)))
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Weather(cityController.text)))
                         .then((value) => cityController.clear());
                   } else {
                     return null;
