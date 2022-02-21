@@ -9,7 +9,7 @@ class Registration extends StatefulWidget {
   const Registration({Key key}) : super(key: key);
 
   @override
-    _RegistrationState createState() => _RegistrationState();
+  _RegistrationState createState() => _RegistrationState();
 }
 
 class _RegistrationState extends State<Registration> {
@@ -108,11 +108,11 @@ class _RegistrationState extends State<Registration> {
         appBar = "ನೋಂದಣಿ";
         register = "ನೋಂದಣಿ";
         snackbar1 = "ನೋಂದಣಿ ಯಶಸ್ವಿಯಾಗಿ";
-        snackbar2 = "ಅಮಾನ್ಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
+        snackbar2 = "ಅಮಾನ್ಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಪಾಸ್ವರ್ಡ್";
         snackbar3 = "ಸರ್ವರ್ ದೋಷ";
         snackbar4 = "ದಯವಿಟ್ಟು ಬಳಕೆದಾರ ಹೆಸರನ್ನು ನಮೂದಿಸಿ";
         snackbar5 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ";
-        snackbar6 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
+        snackbar6 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ";
         snackbar7 = "ಪಾಸ್ವರ್ಡ್ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ";
 
         break;
@@ -258,7 +258,8 @@ class _RegistrationState extends State<Registration> {
                         // if (value.length == 10) validateMob(value);
                       },
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(10)
                       ],
                       style: TextStyle(
                           fontFamily: "PoppinsLight",
@@ -324,7 +325,12 @@ class _RegistrationState extends State<Registration> {
                           fontFamily: "PoppinsLight",
                           fontSize: 15.0,
                           color: Colors.green),
+                      inputFormatters: <TextInputFormatter>[
+                        // FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(15)
+                      ],
                       decoration: InputDecoration(
+
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(vertical: 13.0),
                         enabledBorder: OutlineInputBorder(
@@ -373,6 +379,10 @@ class _RegistrationState extends State<Registration> {
                     child: TextField(
                       controller: signupCPassController,
                       obscureText: _obscureTextSignupConfirm,
+                      inputFormatters: <TextInputFormatter>[
+                        // FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(15)
+                      ],
                       style: TextStyle(
                           fontFamily: "PoppinsLight",
                           fontSize: 15.0,
@@ -505,15 +515,15 @@ class _RegistrationState extends State<Registration> {
     final response = await http.post(
         Uri.parse("http://www.zappkode.com/cicr/english/webservices/farmerregistration/saveRegistrationDetails"),
         body: param);
-    Navigator.pop(context);
+    // Navigator.pop(context);
     var responseJson = json.decode(response.body);
     print(response.body);
 
     if(response.statusCode == 200) {
-      if(responseJson['status'] == "success") {
-        prefs.setString("mobile", responseJson['mobile_no']);
-        prefs.setString("username", responseJson['fullname']);
-        prefs.setString("password", responseJson['decpassword']);
+      if(responseJson['status'] == "Success") {
+        prefs.setString("mobile", responseJson['details'][0]['mobile_no']);
+        prefs.setString("username", responseJson['details'][0]['fullname']);
+        prefs.setString("password", responseJson['details'][0]['decpassword']);
         showInSnackBar(snackbar1, 2);
 
         Future.delayed(const Duration(milliseconds: 3000),(){
@@ -529,7 +539,7 @@ class _RegistrationState extends State<Registration> {
 
       }else{
         print(responseJson['message']);
-        showInSnackBar(snackbar2,2);
+        showInSnackBar(responseJson['message'],2);
       }
     }else{
       showInSnackBar(snackbar3,2);

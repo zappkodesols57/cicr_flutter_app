@@ -13,7 +13,11 @@ class TabAboutApp extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            toolbarHeight: 60.0,
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_ios)),
             backgroundColor:  Colors.green,
             bottom: TabBar(
               indicatorColor: Colors.white,

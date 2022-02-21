@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-
 import 'Screens/UI/Login_Page.dart';
 
 class Liquid_Swipes extends StatefulWidget {

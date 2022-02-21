@@ -12,12 +12,12 @@ import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Success%20Story.dart'
 import 'package:cicr_flutter_app/Screens/HomeScreen/Gallery.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/News.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Weather.dart';
+import 'package:cicr_flutter_app/Screens/UI/Language.dart';
+import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'GalleryDetail.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -31,10 +31,11 @@ class HomeScreenState extends State<HomeScreen> {
 
 //list of widgets to call ontap
 
-  String drawer, drawer1, drawer2, drawer3, drawer4, drawer5, drawer6, drawer7,drawer8;
+  String drawer, drawer1, drawer2, drawer3, drawer4, drawer5, drawer6, drawer7,drawer8,drawer9,drawer10;
 
-  String language, cityName;
+  String language,name, cityName,img;
   String home, ask, gallery, news, contact;
+  String number;
 
   TextEditingController cityController = new TextEditingController();
 
@@ -54,18 +55,25 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> autoFill() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     language = prefs.getString("language");
+    name = prefs.getString("fullName");
+    number = prefs.getString("mobile");
+    img = prefs.getString("profilePic");
+
+    print(img);
 
     switch (language) {
       case "Eng":
         drawer = "Profile";
         drawer1 = "Discussion Forum";
-        drawer2 = "Important Website";
+        drawer2 = "Important Websites";
         drawer3 = "Farmer Felicitation";
-        drawer4 = "Success Story";
+        drawer4 = "Success Stories";
         drawer5 = "CICR Directory";
         drawer6 = "About App";
         drawer7 = "Change Password";
         drawer8 = "Logout";
+        drawer9 = "Change Language";
+        drawer10 = "Login";
         cityName = "Enter Your City Name";
         home = "Home";
         ask = "Ask Me";
@@ -85,6 +93,8 @@ class HomeScreenState extends State<HomeScreen> {
         drawer6 = "अॅप बद्दल";
         drawer7 = "पासवर्ड बदला";
         drawer8 = "बाहेर पडणे";
+        drawer9 = "भाषा बदला";
+        drawer10 = "लॉगिन करा";
         cityName = "तुमच्या शहराचे नाव एंटर करा";
         home = "मुख्यपृष्ठ";
         ask = "मला विचार";
@@ -104,6 +114,8 @@ class HomeScreenState extends State<HomeScreen> {
         drawer6 = "ऐप के बारे में";
         drawer7 = "पासवर्ड बदलें";
         drawer8 = "लॉग आउट";
+        drawer9 = "भाषा बदलें";
+        drawer10 = "लॉग इन करें";
         cityName = "अपने शहर का नाम दर्ज करें";
         home = "घर";
         ask = "मुझसे पूछें";
@@ -123,6 +135,8 @@ class HomeScreenState extends State<HomeScreen> {
         drawer6 = "એપ્લિકેશન વિશે";
         drawer7 = "પાસવર્ડ બદલો";
         drawer8 = "લૉગ આઉટ";
+        drawer9 = "ભાષા બદલો";
+        drawer10 = "પ્રવેશ કરો";
         cityName = "તમારા શહેરનું નામ દાખલ કરો";
         home = "ઘર";
         ask = "મને પૂછો";
@@ -142,6 +156,8 @@ class HomeScreenState extends State<HomeScreen> {
         drawer6 = "ಅಪ್ಲಿಕೇಶನ್ ಬಗ್ಗೆ";
         drawer7 = "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ";
         drawer8 = "ಲಾಗ್ ಔಟ್";
+        drawer9 = "ಭಾಷೆ ಬದಲಿಸಿ";
+        drawer10 = "ಲಾಗಿನ್";
         cityName = "ನಿಮ್ಮ ನಗರದ ಹೆಸರನ್ನು ನಮೂದಿಸಿ";
         home = "ಮನೆ";
         ask = "ನನ್ನನ್ನು ಕೇಳಿ";
@@ -190,7 +206,7 @@ class HomeScreenState extends State<HomeScreen> {
               DrawerHeader(
                 child: Image.asset(
                   "assets/logo.png",
-                  height: 100.0,
+                  height: 700.0,
                 ),
                 padding: EdgeInsets.only(right: 10),
               ),
@@ -203,7 +219,7 @@ class HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                         fontFamily: "PoppinsMedium")),
                 leading: Icon(
-                  FontAwesomeIcons.user,
+                  FontAwesomeIcons.solidUser,
                   color: Colors.green,
                 ),
                 onTap: () {
@@ -211,7 +227,7 @@ class HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Profile()));
+                          builder: (context) => Profile(name,number,img)));
                 },
               ),
               Divider(
@@ -234,7 +250,7 @@ class HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DiscussionForum()));
+                          builder: (context) => DiscussionForum(drawer1,name)));
                 },
               ),
               Divider(
@@ -326,6 +342,27 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               ListTile(
                 dense: true,
+                title: Text(drawer9,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "PoppinsMedium")),
+                leading: Icon(
+                  FontAwesomeIcons.language,
+                  color: Colors.green,
+                ),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Language()));
+                },
+              ),
+              Divider(
+                color: Colors.green,
+              ),
+              ListTile(
+                dense: true,
                 title: Text(drawer6,
                     style: TextStyle(
                         color: Colors.green,
@@ -345,27 +382,7 @@ class HomeScreenState extends State<HomeScreen> {
               Divider(
                 color: Colors.green,
               ),
-              ListTile(
-                dense: true,
-                title: Text(drawer7,
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PoppinsMedium")),
-                leading: Icon(
-                  FontAwesomeIcons.tools,
-                  color: Colors.green,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ChangePass()));
-                },
-              ),
-              Divider(
-                color: Colors.green,
-              ),
+              if(name != "guest")
               ListTile(
                 dense: true,
                 title: Text(drawer8,
@@ -378,11 +395,50 @@ class HomeScreenState extends State<HomeScreen> {
                   FontAwesomeIcons.powerOff,
                   color: Colors.green,
                 ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => TabAboutApp(0)));
-                },
+                onTap: () async {
+                    Navigator.of(context, rootNavigator: true).pop('dialog');
+                    SharedPreferences preferences = await SharedPreferences.getInstance();
+                    preferences.setString("userID","");
+                    preferences.setString("fullName","");
+                    preferences.setString("mobile","");
+                    preferences.setString("profilePic","");
+                    preferences.setString("isLogin","");
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login_Page()),
+                          (Route<dynamic> route) => false,
+                    );
+                  },
+              ),
+              if(name == "guest")
+              ListTile(
+                dense: true,
+                title: Text(drawer10,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "PoppinsMedium")),
+                leading: Icon(
+                  FontAwesomeIcons.powerOff,
+                  color: Colors.green,
+                ),
+                onTap: () async {
+                    Navigator.of(context, rootNavigator: true).pop('dialog');
+                    SharedPreferences preferences = await SharedPreferences.getInstance();
+                    preferences.setString("userID","");
+                    preferences.setString("fullName","");
+                    preferences.setString("mobile","");
+                    preferences.setString("profilePic","");
+                    preferences.setString("isLogin","");
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login_Page()),
+                          (Route<dynamic> route) => false,
+                    );
+                  },
               ),
               Divider(
                 color: Colors.green,
@@ -538,7 +594,13 @@ class HomeScreenState extends State<HomeScreen> {
                                 Weather(cityController.text)))
                         .then((value) => cityController.clear());
                   } else {
-                    return null;
+                    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter City",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white, fontSize: 16.0, fontFamily: "PoppinsMedium"),
+                    ),
+                        backgroundColor: Colors.green,
+                    duration: Duration(seconds: 2)));
                   }
                 }),
           ],

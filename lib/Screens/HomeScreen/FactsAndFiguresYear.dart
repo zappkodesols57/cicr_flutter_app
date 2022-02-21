@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cicr_flutter_app/Model/Model_Years.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -196,13 +197,13 @@ class _PhoneState extends State<Phone> {
         }, icon: Icon(Icons.arrow_back_ios)),
       ),
       body:  Center(
-        child:  PhotoViewGallery.builder(
+        child:  PhotoViewGallery.builder(scrollPhysics: NeverScrollableScrollPhysics(),
             backgroundDecoration: BoxDecoration(
                 color: Colors.black
             ),
             itemCount: widget.file.length,
             builder: (BuildContext context, int index){
-              return PhotoViewGalleryPageOptions(
+              return PhotoViewGalleryPageOptions(disableGestures: true,
                   imageProvider: NetworkImage(widget.file),
                   initialScale: PhotoViewComputedScale.contained,
                   heroAttributes: PhotoViewHeroAttributes(

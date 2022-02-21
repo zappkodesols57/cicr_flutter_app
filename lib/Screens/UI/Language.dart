@@ -1,3 +1,4 @@
+import 'package:cicr_flutter_app/Screens/HomeScreen/HomeScreen.dart';
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,8 @@ class Language extends StatefulWidget {
 }
 
 class _LanguageState extends State<Language> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   SharedPreferences language;
   String _isLogin;
 
@@ -38,9 +41,10 @@ class _LanguageState extends State<Language> {
     return new Scaffold(
       appBar: AppBar(
         title: Text("Select The Language"),
-        leading:  (_isLogin != null) ? IconButton(
+        leading:  ( _isLogin == "1") ? IconButton(
           onPressed: () {
-            Navigator.pop(context);
+              Navigator.pop(context);
+
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -233,16 +237,33 @@ class _LanguageState extends State<Language> {
                     ),
                   ),
                   onPressed: () {
-                    if(_english == true || _marathi == true || _hindi == true || _gujarati == true || _kannada == true){
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login_Page()),
-                            (Route<dynamic> route) => false,
-                      );
-                    }else{
-                      return null;
+                    if(_isLogin == null || _isLogin == "")
+                    {
+                      if (_english == true || _marathi == true ||
+                          _hindi == true || _gujarati == true ||
+                          _kannada == true) {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login_Page()),
+                              (Route<dynamic> route) => false,
+                        );
+                      } else {
+                        showInSnackBar("Please Select Language");
+                        return null;
+                      }
                     }
-
+                    else
+                    if (_english == true || _marathi == true ||
+                        _hindi == true || _gujarati == true ||
+                        _kannada == true){
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => false,
+                        );
+                      } else
+                        showInSnackBar("Please Select Language");
+                    return null;
                   }),
             ),
           ],
@@ -250,4 +271,20 @@ class _LanguageState extends State<Language> {
       ),
     );
   }
+
+  void showInSnackBar(String value) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.white, fontSize: 16.0, fontFamily: "PoppinsMedium"),
+      ),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 2),
+    ));
+  }
+
 }

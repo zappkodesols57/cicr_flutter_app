@@ -1,4 +1,5 @@
 import 'package:cicr_flutter_app/AppIntro.dart';
+import 'package:cicr_flutter_app/Screens/HomeScreen/HomeScreen.dart';
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,38 +17,44 @@ class _OpacityanimateState extends State<Opacityanimate> {
 
   String language;
 
+  String isLogin;
+
   @override
   Widget build(BuildContext context) {
     Size size = Get.mediaQuery.size;
     return Center(
-      child: TweenAnimationBuilder(
-        duration: const Duration(seconds: 4),
-        tween: tween,
-        builder: (BuildContext context, double value, Widget child) {
-          return Opacity(
-              opacity: value,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Image.asset(
-                  'assets/logo.png',
-                  height: 190,
-                  width: 190,
+        child: TweenAnimationBuilder(
+            duration: const Duration(seconds: 4),
+            tween: tween,
+            builder: (BuildContext context, double value, Widget child) {
+              return Opacity(
+                opacity: value,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/logo.png',
+                      height: 190,
+                      width: 190,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          );
-        },
-        onEnd: () async {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          language = prefs.getString("language");
-          print(language);
+              );
+            },
+            onEnd: () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              language = prefs.getString("language");
+              isLogin = prefs.getString("isLogin");
+              print(language);
+              print(isLogin);
 
-            Get.off(language == null ? Language() : Login_Page());
-        },
-
-      ),
-    );
+              if (isLogin != "" || isLogin != null) {
+                Get.off(language == null ? Language() : HomeScreen());
+              } else {
+                Get.off(language == null ? Language() : Login_Page());
+              }
+            }
+        ));
   }
 }

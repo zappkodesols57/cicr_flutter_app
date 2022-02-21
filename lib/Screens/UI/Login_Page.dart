@@ -222,7 +222,7 @@ class _Login_PageState extends State<Login_Page> {
                             color: Colors.green,
                             size: 20.0,
                           ),
-                          labelText: phone,
+                          labelText: phone??"",
                           labelStyle: TextStyle(
                               fontFamily: "PoppinsLight",
                               fontSize: 13.0,
@@ -265,7 +265,7 @@ class _Login_PageState extends State<Login_Page> {
                             size: 20.0,
                             color: Colors.green,
                           ),
-                          labelText: password,
+                          labelText: password??"",
                           labelStyle: TextStyle(
                               fontFamily: "PoppinsLight",
                               fontSize: 13.0,
@@ -288,12 +288,12 @@ class _Login_PageState extends State<Login_Page> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Checkbox(
-                          value: rememberMe,
+                          value: rememberMe??"",
                           activeColor: Colors.green,
                           onChanged: _onRememberMeChanged,
                         ),
                         Text(
-                          remember,
+                          remember??"",
                           style: TextStyle(color:Colors.green,fontWeight: FontWeight.bold,fontFamily: "PoppinsMedium"),
                         ),
                         Padding(
@@ -310,7 +310,7 @@ class _Login_PageState extends State<Login_Page> {
                                 );
                               },
                               child: Text(
-                                forgot,
+                                forgot??"",
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontFamily: "PoppinsMedium",
@@ -353,7 +353,7 @@ class _Login_PageState extends State<Login_Page> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 42.0),
                             child: Text(
-                              login,
+                              login??"",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 22.0,
@@ -372,7 +372,7 @@ class _Login_PageState extends State<Login_Page> {
                             validateGuest();
                           },
                           child: Text(
-                            guest,
+                            guest??"",
                             style: TextStyle(
                               decoration: TextDecoration.underline,
                                 color: Colors.green,
@@ -390,7 +390,7 @@ class _Login_PageState extends State<Login_Page> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15.0),
                           child: Text(
-                            newUser,
+                            newUser??"",
                             style: TextStyle(
                                 color: Colors.green,
                                 fontSize: 14.0,
@@ -416,7 +416,7 @@ class _Login_PageState extends State<Login_Page> {
                                     }));
                               },
                               child: Text(
-                                register,
+                                register??"",
                                 style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 16.0,
@@ -481,6 +481,8 @@ class _Login_PageState extends State<Login_Page> {
           prefs.setString("fullName", responseJson['fullname']);
           prefs.setString("mobile", responseJson['mobile_no']);
           prefs.setString("profilePic", responseJson['profile_pic']);
+          prefs.setString("isLogin", "1");
+
 
           Navigator.pushAndRemoveUntil(
             context,

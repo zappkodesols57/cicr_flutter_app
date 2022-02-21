@@ -48,6 +48,8 @@ dependencies:
   open_file: ^3.2.1
   permission_handler:
   dio: ^4.0.0
+  flutter_html: any
+  favorite_button: any
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -109,6 +111,7 @@ flutter:
     - assets/dashboard/agriculture4.png
     - assets/dashboard/agriculture5.png
     - assets/dashboard/agriculture6.png
+    - assets/weekly/
 
 
   # To add custom fonts to your application, add a fonts section here,

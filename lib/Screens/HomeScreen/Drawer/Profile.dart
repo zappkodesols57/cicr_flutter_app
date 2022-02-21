@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:async/async.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
+import 'ChangePass.dart';
+
 class Profile extends StatefulWidget {
-  const Profile({Key key}) : super(key: key);
+  String name, number, img;
+
+  Profile(this.name, this.number, this.img);
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -26,18 +28,18 @@ class _ProfileState extends State<Profile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final ScrollController _controller = ScrollController();
 
-
-  String number, token;
+  String ProfileImg;
   int id;
 
   @override
   void initState() {
     _isButtonDisabled = true;
     _isButtonDisabledColor = true;
-
+    getCredentials();
     super.initState();
-   // setDetails();
+    // setDetails();
   }
+
   //
   // Future<void> setDetails() async {
   //   SchedulerBinding.instance
@@ -135,6 +137,11 @@ class _ProfileState extends State<Profile> {
   //   } else
   //     print(profileImage.status);
   // }
+  Future<void> getCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    fnameController.text = prefs.getString("fullName");
+    mobController.text = prefs.getString("mobile");
+  }
 
   @override
   void dispose() {
@@ -191,233 +198,219 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // double headerHeight = size.height * 0.17;
-    double headerHeight = 150.0;
+    double headerHeight = 160.0;
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text("Profile"),
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context, true);
-          },
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text("Profile"),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+          ),
+          // actions: <Widget>[
+          //   FlatButton(
+          //     textColor: _isButtonDisabledColor ? Colors.grey : Colors.white,
+          //     onPressed: () {
+          //       // _isButtonDisabled ? null : save();
+          //     },
+          //     child: Text("SAVE"),
+          //     shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          //   ),
+          // ],
         ),
-        // actions: <Widget>[
-        //   FlatButton(
-        //     textColor: _isButtonDisabledColor ? Colors.grey : Colors.white,
-        //     onPressed: () {
-        //       // _isButtonDisabled ? null : save();
-        //     },
-        //     child: Text("SAVE"),
-        //     shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
-        //   ),
-        // ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            new Container(
-              height: headerHeight,
-              decoration: new BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: new BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0)),
-                boxShadow: <BoxShadow>[
-                  new BoxShadow(
-                      spreadRadius: 0.0,
-                      blurRadius: 0.0,
-                      offset: new Offset(0.0, 0.0),
-                      color: Colors.black26),
-                ],
-              ),
-              child: new Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  // linear gradient
-                  new Container(
-                    height: headerHeight,
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.only(
-                          bottomLeft: Radius.circular(30.0),
-                          bottomRight: Radius.circular(30.0)),
-                      gradient: new LinearGradient(colors: <Color>[
-                        //7928D1
-                        Colors.green, Colors.green
-                      ], stops: <double>[
-                        0.5,
-                        0.5
-                      ], begin: Alignment.topRight, end: Alignment.bottomLeft),
-                    ),
-                  ),
-                  // radial gradient
-                  new CustomPaint(
-                    painter: new HeaderGradientPainter(),
-                  ),
-                  new Padding(
-                    padding: new EdgeInsets.only(
-                        top: 0.0, left: 15.0, right: 15.0, bottom: 0.0),
-                    child: new Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        new Padding(
-                            padding: const EdgeInsets.only(bottom: 0.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                _buildAvatar(size),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
-                                // Text(
-                                //   'Your GreenBill Pin for Checkout',
-                                //   style: TextStyle(color: Colors.white),
-                                // ),
-                                Text(
-                                  profileUid.text,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0,
-                                      color: Colors.white),
-                                )
-                              ],
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+        body: SingleChildScrollView(
+            child: Column(children: <Widget>[
+          new Container(
+            height: headerHeight,
+            decoration: new BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: new BorderRadius.only(
+                  bottomLeft: Radius.circular(30.0),
+                  bottomRight: Radius.circular(30.0)),
+              boxShadow: <BoxShadow>[
+                new BoxShadow(
+                    spreadRadius: 0.0,
+                    blurRadius: 0.0,
+                    offset: new Offset(0.0, 0.0),
+                    color: Colors.black26),
+              ],
             ),
-            Container(
-              width: size.width * 0.95,
-              padding: EdgeInsets.only(top: 20.0, bottom: 10.0, left: 0.0, right: 0.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: new TextField(
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-                  LengthLimitingTextInputFormatter(15)],
-                controller: fnameController,
-                onChanged: (value) {
-                  setState(() {
-                    _isButtonDisabledColor = false;
-                    _isButtonDisabled = false;
-                  });
-                },
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontFamily: "PoppinsLight",
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w400,
+            child: new Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                // linear gradient
+                new Container(
+                  height: headerHeight,
+                  decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.only(
+                        bottomLeft: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0)),
+                    gradient: new LinearGradient(colors: <Color>[
+                      //7928D1
+                      Colors.green, Colors.green
+                    ], stops: <double>[
+                      0.5,
+                      0.5
+                    ], begin: Alignment.topRight, end: Alignment.bottomLeft),
+                  ),
                 ),
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    FontAwesomeIcons.user,
-                    color: Colors.green,
+                // radial gradient
+                new CustomPaint(
+                  painter: new HeaderGradientPainter(),
+                ),
+                new Padding(
+                  padding: new EdgeInsets.only(
+                      top: 0.0, left: 15.0, right: 15.0, bottom: 0.0),
+                  child: new Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Padding(
+                          padding: const EdgeInsets.only(bottom: 0.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              _buildAvatar(size),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              // Text(
+                              //   'Your GreenBill Pin for Checkout',
+                              //   style: TextStyle(color: Colors.white),
+                              // ),
+                            ],
+                          )),
+                    ],
                   ),
-                  labelText: "First Name *",
-                  labelStyle: TextStyle(
-                      fontFamily: "PoppinsLight",
-                      fontSize: 13.0,
-                      color: Colors.green),
-                  border: InputBorder.none,
-                  counterStyle: TextStyle(
-                    height: double.minPositive,
-                  ),
-                  counterText: "",
-                  contentPadding:
-                  const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.green,
-                        width: 0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-                  ),
-                  focusedBorder: new OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.green,
-                        width: 0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: size.width * 0.75,
+            padding:
+                EdgeInsets.only(top: 20.0, bottom: 10.0, left: 0.0, right: 0.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: new TextField(
+              focusNode: new AlwaysDisabledFocusNode(),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+                LengthLimitingTextInputFormatter(15)
+              ],
+              controller: fnameController,
+              onChanged: (value) {},
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontFamily: "PoppinsLight",
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w400,
+              ),
+              decoration: InputDecoration(
+                prefixIcon: Icon(
+                  FontAwesomeIcons.user,
+                  color: Colors.green,
+                ),
+                labelText: "Name",
+                labelStyle: TextStyle(
+                    fontFamily: "PoppinsLight",
+                    fontSize: 13.0,
+                    color: Colors.green),
+                border: InputBorder.none,
+                counterStyle: TextStyle(
+                  height: double.minPositive,
+                ),
+                counterText: "",
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green, width: 0.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+                ),
+                focusedBorder: new OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green, width: 0.5),
+                  borderRadius: const BorderRadius.all(Radius.circular(35.0)),
                 ),
               ),
             ),
-            // Container(
-            //   width: size.width * 0.95,
-            //   padding: EdgeInsets.only(top: 0.0, bottom: 10.0, left: 0.0, right: 0.0),
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(5),
-            //   ),
-            //   child: new TextField(
-            //     inputFormatters: [
-            //       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
-            //       LengthLimitingTextInputFormatter(15)],
-            //
-            //     controller: lnameController,
-            //     onChanged: (value) {
-            //       setState(() {
-            //         _isButtonDisabledColor = false;
-            //         _isButtonDisabled = false;
-            //       });
-            //     },
-            //     style: TextStyle(
-            //       color: Colors.black,
-            //       fontSize: 15,
-            //       fontFamily: "PoppinsLight",
-            //       fontStyle: FontStyle.normal,
-            //       fontWeight: FontWeight.w400,
-            //     ),
-            //     decoration: InputDecoration(
-            //       prefixIcon: Icon(
-            //         FontAwesomeIcons.user,
-            //         color: Colors.green,
-            //       ),
-            //       labelText: "Last Name *",
-            //       labelStyle: TextStyle(
-            //           fontFamily: "PoppinsLight",
-            //           fontSize: 13.0,
-            //           color: Colors.green),
-            //       border: InputBorder.none,
-            //       counterStyle: TextStyle(
-            //         height: double.minPositive,
-            //       ),
-            //       counterText: "",
-            //       contentPadding:
-            //       const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: BorderSide(
-            //             color: Colors.green,
-            //             width: 0.5),
-            //         borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-            //       ),
-            //       focusedBorder: new OutlineInputBorder(
-            //         borderSide: BorderSide(
-            //             color: Colors.green,
-            //             width: 0.5),
-            //         borderRadius: const BorderRadius.all(Radius.circular(35.0)),
-            //       ),
-            //     ),
-            //   ),
-            // ),
+          ),
+          // Container(
+          //   width: size.width * 0.95,
+          //   padding: EdgeInsets.only(top: 0.0, bottom: 10.0, left: 0.0, right: 0.0),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(5),
+          //   ),
+          //   child: new TextField(
+          //     inputFormatters: [
+          //       FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]")),
+          //       LengthLimitingTextInputFormatter(15)],
+          //
+          //     controller: lnameController,
+          //     onChanged: (value) {
+          //       setState(() {
+          //         _isButtonDisabledColor = false;
+          //         _isButtonDisabled = false;
+          //       });
+          //     },
+          //     style: TextStyle(
+          //       color: Colors.black,
+          //       fontSize: 15,
+          //       fontFamily: "PoppinsLight",
+          //       fontStyle: FontStyle.normal,
+          //       fontWeight: FontWeight.w400,
+          //     ),
+          //     decoration: InputDecoration(
+          //       prefixIcon: Icon(
+          //         FontAwesomeIcons.user,
+          //         color: Colors.green,
+          //       ),
+          //       labelText: "Last Name *",
+          //       labelStyle: TextStyle(
+          //           fontFamily: "PoppinsLight",
+          //           fontSize: 13.0,
+          //           color: Colors.green),
+          //       border: InputBorder.none,
+          //       counterStyle: TextStyle(
+          //         height: double.minPositive,
+          //       ),
+          //       counterText: "",
+          //       contentPadding:
+          //       const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
+          //       enabledBorder: OutlineInputBorder(
+          //         borderSide: BorderSide(
+          //             color: Colors.green,
+          //             width: 0.5),
+          //         borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          //       ),
+          //       focusedBorder: new OutlineInputBorder(
+          //         borderSide: BorderSide(
+          //             color: Colors.green,
+          //             width: 0.5),
+          //         borderRadius: const BorderRadius.all(Radius.circular(35.0)),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          if (widget.name != "guest")
             Container(
-              width: size.width * 0.95,
-              padding: EdgeInsets.only(top: 0.0, bottom: 10.0, left: 0.0, right: 0.0),
+              width: size.width * 0.75,
+              padding: EdgeInsets.only(
+                  top: 0.0, bottom: 10.0, left: 0.0, right: 0.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
               ),
               child: new TextField(
                 focusNode: new AlwaysDisabledFocusNode(),
-                enableInteractiveSelection: false, // will disable paste operation
+                enableInteractiveSelection: false,
+                // will disable paste operation
                 controller: mobController,
                 onChanged: (value) {
-                  setState(() {
-
-                    _isButtonDisabled = false;
-                  });
+                  setState(() {});
                 },
                 style: TextStyle(
                   color: Colors.black,
@@ -435,25 +428,38 @@ class _ProfileState extends State<Profile> {
                   labelStyle: TextStyle(
                       fontFamily: "PoppinsLight",
                       fontSize: 13.0,
-                      color: Colors.green
-                  ),
+                      color: Colors.green),
                   border: InputBorder.none,
                   counterStyle: TextStyle(
                     height: double.minPositive,
                   ),
                   counterText: "",
-                  contentPadding: const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 13.0, horizontal: 5),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.green,
-                        width: 0.5),
+                    borderSide: BorderSide(color: Colors.green, width: 0.5),
                     borderRadius: const BorderRadius.all(Radius.circular(35.0)),
                   ),
                 ),
               ),
             ),
-
-    ])));
+          if (widget.name != "guest")
+            MaterialButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ChangePass()));
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: Colors.green,
+              child: Text(
+                "Change Password",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+        ])));
   }
 
   Widget _buildAvatar(Size size) {
@@ -464,25 +470,52 @@ class _ProfileState extends State<Profile> {
         new Center(
           child: Stack(
             children: <Widget>[
-              ClipOval(
-                child: new Image.network(
-                  '${profile.text}',
-                  // height: size.height * 0.1,
-                  height: 90.0,
-                  width: 90.0,
-                  fit: BoxFit.fill,
-                  // loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
-                  //   if (loadingProgress == null) return child;
-                  //   return Center(
-                  //     child: CircularProgressIndicator(
-                  //       value: loadingProgress.expectedTotalBytes != null ?
-                  //       loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
-                  //           : null,
-                  //     ),
-                  //   );
-                  // },
+              if (widget.img != "")
+                ClipOval(
+                  child: new Image.network(
+                    widget.img,
+                    // height: size.height * 0.1,
+                    height: 140.0,
+                    width: 140.0,
+                    fit: BoxFit.cover,
+                    // loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+                    //   if (loadingProgress == null) return child;
+                    //   return Center(
+                    //     child: CircularProgressIndicator(
+                    //       value: loadingProgress.expectedTotalBytes != null ?
+                    //       loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                    //           : null,
+                    //     ),
+                    //   );
+                    // },
+                  ),
                 ),
-              ),
+              if (widget.img == "")
+                Center(
+                  child: ClipOval(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white24,
+                      child: Image.network("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"),
+                      radius: 70,
+                    ),
+                    // new Image.network(widget.img,
+                    //   // height: size.height * 0.1,
+                    //   height: 140.0,
+                    //   width: 140.0,
+                    //   fit: BoxFit.fill,
+                    //   // loadingBuilder:(BuildContext context, Widget child,ImageChunkEvent loadingProgress) {
+                    //   //   if (loadingProgress == null) return child;
+                    //   //   return Center(
+                    //   //     child: CircularProgressIndicator(
+                    //   //       value: loadingProgress.expectedTotalBytes != null ?
+                    //   //       loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes
+                    //   //           : null,
+                    //   //     ),
+                    //   //   );
+                    //   // },
+                    // ),
+                  ),
+                ),
               Positioned(
                 bottom: 0.0,
                 right: 0.0,
@@ -530,14 +563,6 @@ class _ProfileState extends State<Profile> {
                         _openCamera(context);
                       },
                     ),
-                    Padding(padding: EdgeInsets.all(8.0)),
-                    GestureDetector(
-                      child: Text("Remove Photo"),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                       // removeProfile();
-                      },
-                    )
                   ],
                 ),
               ));
@@ -547,56 +572,21 @@ class _ProfileState extends State<Profile> {
   void _openCamera(BuildContext context) async {
     Navigator.of(context).pop();
     final ImagePicker _picker = ImagePicker();
-    final XFile picture = await _picker.pickImage(
-        source: ImageSource.camera, imageQuality: 25);
+    final XFile picture =
+        await _picker.pickImage(source: ImageSource.camera, imageQuality: 25);
     if (picture != null) {
-      _cropImage(picture);
+      sendData(File(picture.path));
     }
   }
 
   void _openGallery(BuildContext context) async {
     final ImagePicker _picker = ImagePicker();
 
-    final XFile picture = await _picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 25);
+    final XFile picture =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 25);
     Navigator.of(context).pop();
     if (picture != null) {
-      _cropImage(picture);
-    }
-  }
-
-  Future<Null> _cropImage(XFile picture) async {
-    File croppedFile = await ImageCropper.cropImage(
-      sourcePath: picture.path,
-      compressQuality: 50,
-      aspectRatioPresets: Platform.isAndroid
-      ? [
-      CropAspectRatioPreset.square,
-      CropAspectRatioPreset.ratio3x2,
-      CropAspectRatioPreset.original,
-      CropAspectRatioPreset.ratio4x3,
-      CropAspectRatioPreset.ratio16x9
-      ]
-      : [
-      CropAspectRatioPreset.original,
-      CropAspectRatioPreset.square,
-      CropAspectRatioPreset.ratio3x2,
-      CropAspectRatioPreset.ratio4x3,
-      CropAspectRatioPreset.ratio5x3,
-      CropAspectRatioPreset.ratio5x4,
-      CropAspectRatioPreset.ratio7x5,
-      CropAspectRatioPreset.ratio16x9
-      ],
-      androidUiSettings: AndroidUiSettings(
-          toolbarTitle: 'Crop',
-          toolbarColor: Colors.green,
-          toolbarWidgetColor: Colors.white,
-          activeControlsWidgetColor: Colors.green,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: false),
-    );
-    if (croppedFile != null) {
-      sendData(croppedFile);
+      sendData(File(picture.path));
     }
   }
 
@@ -620,16 +610,13 @@ class _ProfileState extends State<Profile> {
         });
   }
 
-
-
-
-
   bool validateEmail(String value) {
     String pattern =
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
+
   //
   // Future<void> save() async {
   //   if (fnameController.text.isEmpty) {
@@ -803,57 +790,12 @@ class _ProfileState extends State<Profile> {
   // }
 
   Future<void> sendData(File imageFile) async {
-    // open a bytestream
-    var stream =
-    new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-
-    // get file length
-    var length = await imageFile.length();
+    List<int> imageByte = imageFile.readAsBytesSync();
+    print(imageByte);
+    String base64Img = base64Encode(imageByte);
+    print(base64Img);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    int userID = prefs.getInt("userID");
-    String token = prefs.getString("token");
-
-    print('$userID  $token');
-
-    // string to uri
-    var uri =
-    Uri.parse("http://157.230.228.250/set-customer-profile-image-api/");
-    Map<String, String> headers = {"Authorization": "Token $token"};
-    // create multipart request
-    var request = new http.MultipartRequest("POST", uri);
-
-    // multipart that takes file
-    var multipartFile = new http.MultipartFile(
-        'c_profile_image', stream, length,
-        filename: path.basename(imageFile.path));
-
-    // add file to multipart
-    request.files.add(multipartFile);
-
-    request.fields['user_id'] = userID.toString();
-
-    request.headers.addAll(headers);
-
-    // send
-    var response = await request.send();
-    print(response.statusCode);
-    print(response);
-
-    if (response.statusCode == 200) {
-      print(
-          "***********************************************     Submit     *******************************************************");
-      showInSnackBar("Profile Updated");
-      //setData(id, token);
-      setState(() {});
-    } else {
-      showInSnackBar("Something went wrong!");
-    }
-
-    // listen for response
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-    });
   }
 }
 

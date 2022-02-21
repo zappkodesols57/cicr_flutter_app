@@ -87,7 +87,13 @@ class _SuccessStoryState extends State<SuccessStory> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(appbar),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios)),
       ),
+
       body: FutureBuilder<SuccessStr>(
         future: getStory(),
         builder:

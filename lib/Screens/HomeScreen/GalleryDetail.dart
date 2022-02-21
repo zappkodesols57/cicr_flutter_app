@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
-
 class GalleryDetail extends StatefulWidget {
   String name;
 

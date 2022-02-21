@@ -247,6 +247,10 @@ class FogotPassState extends State<FogotPass> {
                       focusNode: myFocusNodePassword,
                       controller: passwordController,
                       obscureText: _obscureTextSignup,
+                      inputFormatters: <TextInputFormatter>[
+                        // FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(15)
+                      ],
                       onSubmitted: (value){
                         // validatePassword(value) ? showInSnackBar('Valid Password', 2) : showInSnackBar(warn, 8);
                       },
@@ -294,6 +298,11 @@ class FogotPassState extends State<FogotPass> {
                       focusNode: myFocusNodePasswordConfirm,
                       controller: confirmPasswordController,
                       obscureText: _obscureTextSignupConfirm,
+                      inputFormatters: <TextInputFormatter>[
+                        // FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(15)
+                      ],
+
                       style: TextStyle(
                           fontFamily: "PoppinsLight",
                           fontSize: 13.0,

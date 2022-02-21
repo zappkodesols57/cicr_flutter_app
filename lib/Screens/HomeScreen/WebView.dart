@@ -32,6 +32,7 @@ class _WebViewPageState extends State<WebViewPage> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 15.0,),
           Container(
             height: 200,
             width: MediaQuery.of(context).size.width,
@@ -53,6 +54,7 @@ class _WebViewPageState extends State<WebViewPage> {
 }
 
 class WebViewPage2 extends StatefulWidget {
+
   String id,category,file,details,north,south,central;
 
   WebViewPage2(this.id,this.category,this.file,this.details,this.north,this.south,this.central);
@@ -63,9 +65,7 @@ class WebViewPage2 extends StatefulWidget {
 
 class _WebViewPage2State extends State<WebViewPage2> {
   final ScrollController _controller = ScrollController();
-  bool north = false, central = false, south = false ;
-
-
+  bool north = true, central = false, south = false;
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +107,7 @@ class _WebViewPage2State extends State<WebViewPage2> {
                         south = false;
                       });
                     },
+                      elevation: 5.0,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)
                       ),
@@ -125,7 +126,7 @@ class _WebViewPage2State extends State<WebViewPage2> {
                           south = false;
                         });
                       },
-                        elevation: 10.0,
+                        elevation: 5.0,
                         child: Text("Central"),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)
@@ -143,6 +144,7 @@ class _WebViewPage2State extends State<WebViewPage2> {
                         south = true;
                       });
                     },
+                      elevation: 5.0,
                       child: Text("South"),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)

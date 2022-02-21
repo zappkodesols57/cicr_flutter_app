@@ -223,8 +223,8 @@ class _ChangePassState extends State<ChangePass> {
                       suffixIcon: GestureDetector(
                          onTap: _toggleOld,
                         child: Icon(
-                          _obscureTextSignup
-                              ? FontAwesomeIcons.eyeSlash
+                  _obscureTextOldPass
+                       ? FontAwesomeIcons.eyeSlash
                               : FontAwesomeIcons.eye,
                           size: 13.0,
                           color: Colors.green,
@@ -443,11 +443,11 @@ class _ChangePassState extends State<ChangePass> {
     if(response.statusCode == 200) {
       showInSnackBar(passSuccess, 2);
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      for (String key in preferences.getKeys()) {
-        if (key != "userID" && key != "fullName" && key != "mobile" && key!="profilePic") {
-          preferences.remove(key);
-        }
-      }
+      // for (String key in preferences.getKeys()) {
+      //   if (key != "userID" && key != "fullName" && key != "mobile" && key!="profilePic") {
+      //     preferences.remove(key);
+      //   }
+      // }
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => Login_Page()),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 class PdfViewer extends StatefulWidget {
@@ -32,10 +33,7 @@ class _PdfViewerState extends State<PdfViewer> {
         children: [
           ListTile(
             dense: false,
-            title: Text(widget.description,
-                style: TextStyle(
-                    fontSize: 12.0,
-                    fontFamily: "PoppinsBold")),
+            title: Html(data: widget.description),
             isThreeLine: false,
             trailing:Wrap(
               children: [
@@ -53,15 +51,23 @@ class _PdfViewerState extends State<PdfViewer> {
               ],
             ) ,
           ),
+          if(widget.pdf.endsWith(".pdf"))
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 10.0,right: 15.0,top: 10,bottom: 10),
               child:  Container(
                   height: MediaQuery.of(context).size.height,
-                  child: PDF(enableSwipe: true,swipeHorizontal: true).cachedFromUrl(widget.pdf)
+                  child: PDF(
+                      enableSwipe: true,
+                      swipeHorizontal: true).cachedFromUrl(widget.pdf)
               )
             ),
           ),
+          if(!widget.pdf.endsWith(".pdf"))
+            Padding(
+              padding: const EdgeInsets.only(top: 300.0),
+              child: Text("No Pdf Available"),
+            )
         ],
       ),
     );
