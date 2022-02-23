@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cicr_flutter_app/Model/Model_CicrDirectory.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
@@ -22,6 +24,8 @@ class _CICRDirectoryState extends State<CICRDirectory> {
   String api, language;
   Dio dio = Dio();
   final path = '/storage/emulated/0/Download';
+
+  String file;
 
 
   @override
@@ -75,8 +79,11 @@ class _CICRDirectoryState extends State<CICRDirectory> {
 
     print(res.body);
     print(res.statusCode);
+    var responseJson = json.decode(res.body);
     if (200 == res.statusCode) {
       print(directoryFromJson(res.body).list.length);
+      file = responseJson['path'][0]['file'];
+      print(file);
       return directoryFromJson(res.body);
     } else {
       throw Exception('Failed to load List');
@@ -163,9 +170,11 @@ class _CICRDirectoryState extends State<CICRDirectory> {
                             //       fontSize: 12.0),
                             //   textAlign: TextAlign.end,),
                           ),
-                          Container(
-                              height: MediaQuery.of(context).size.height,
-                              child: PDF(enableSwipe: true,swipeHorizontal: true).cachedFromUrl(snapshot.data.list[index].file)
+                          Center(
+                            child: Container(
+                              height: 500,
+                                child: PDF(enableSwipe: true,swipeHorizontal: true).cachedFromUrl(snapshot.data.list[index].file)
+                            ),
                           )
                         ],
                       );

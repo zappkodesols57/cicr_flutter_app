@@ -203,7 +203,7 @@ class _PhoneState extends State<Phone> {
             ),
             itemCount: widget.file.length,
             builder: (BuildContext context, int index){
-              return PhotoViewGalleryPageOptions(disableGestures: true,
+              return PhotoViewGalleryPageOptions(disableGestures: false,
                   imageProvider: NetworkImage(widget.file),
                   initialScale: PhotoViewComputedScale.contained,
                   heroAttributes: PhotoViewHeroAttributes(

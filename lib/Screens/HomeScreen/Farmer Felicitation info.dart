@@ -4,6 +4,7 @@ import 'package:cicr_flutter_app/Screens/HomeScreen/PdfViewer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 class FelicitationInfo extends StatefulWidget {
@@ -158,7 +159,8 @@ class _FelicitationInfoState extends State<FelicitationInfo> {
                                   color: Colors.green,
                                   fontFamily: "PoppinsBold")),
                           isThreeLine: false,
-                          trailing: Text(snapshot.data.list[index].date.substring(0,10),style: TextStyle(
+                          trailing: Text(DateFormat('dd-MM-yyyy').format(DateTime.parse(snapshot.data.list[index].date)),
+                          style: TextStyle(
                               color: Colors.red,
                               //fontWeight: FontWeight.bold,
                               fontSize: 8.0),),

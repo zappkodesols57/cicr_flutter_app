@@ -3,15 +3,14 @@ import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Language extends StatefulWidget {
-  String languageSelected;
-  Language(this.languageSelected);
+class Language2 extends StatefulWidget {
+  const Language2({Key key}) : super(key: key);
 
   @override
-  _LanguageState createState() => _LanguageState();
+  _Language2State createState() => _Language2State();
 }
 
-class _LanguageState extends State<Language> {
+class _Language2State extends State<Language2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   SharedPreferences language;
@@ -35,36 +34,6 @@ class _LanguageState extends State<Language> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLogin = prefs.getString("isLogin");
     language = prefs;
-    switch (widget.languageSelected){
-      case "Eng":
-        setState(() {
-          _english = true;
-        });
-        break;
-
-      case "Mar":
-        setState(() {
-          _marathi = true;
-        });
-       break;
-
-        case "Hin":
-        setState(() {
-          _hindi = true;
-        });
-        break;
-
-        case "Gu":
-        setState(() {
-          _gujarati = true;
-        });
-        break;
-
-        case "Kan":
-        setState(() {
-          _kannada = true;
-        });
-    }
   }
 
   @override
@@ -72,15 +41,19 @@ class _LanguageState extends State<Language> {
     return new Scaffold(
       appBar: AppBar(
         title: Text("Select The Language"),
-        leading:IconButton(
+        leading:  ( _isLogin == "1") ? IconButton(
           onPressed: () {
-              Navigator.pop(context);
+            Navigator.pop(context);
+
           },
           icon: Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
         )
+            : SizedBox(
+          width: 0.1,
+        ),
       ),
 
       body: Container(
@@ -100,11 +73,11 @@ class _LanguageState extends State<Language> {
           children: [
             ListTile(
               title: Text("English",
-              style: TextStyle(
-                  fontFamily: "PoppinsMedium",
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                  fontSize: 25.0),
+                style: TextStyle(
+                    fontFamily: "PoppinsMedium",
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                    fontSize: 25.0),
               ),
               leading: Checkbox(
                 value: _english,
@@ -112,12 +85,12 @@ class _LanguageState extends State<Language> {
                 onChanged: (bool value) {
                   setState(() {
                     _english = value;
-                     _marathi = false;
-                     _hindi = false;
+                    _marathi = false;
+                    _hindi = false;
                     _gujarati = false;
-                     _kannada = false;
+                    _kannada = false;
 
-                     language.setString("language", "Eng");
+                    language.setString("language", "Eng");
 
                   });
                 },
@@ -283,13 +256,13 @@ class _LanguageState extends State<Language> {
                     if (_english == true || _marathi == true ||
                         _hindi == true || _gujarati == true ||
                         _kannada == true){
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                              (Route<dynamic> route) => false,
-                        );
-                      } else
-                        showInSnackBar("Please Select Language");
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false,
+                      );
+                    } else
+                      showInSnackBar("Please Select Language");
                     return null;
                   }),
             ),

@@ -35,31 +35,27 @@ class _SuccessStoryState extends State<SuccessStory> {
     switch (language) {
       case "Eng":
         api = "https://www.zappkode.com/cicr/english/webservices/success_story/getSuccessStory";
-        appbar = "Success Story";
+        appbar = "Success Stories";
         break;
 
       case "Mar":
         api = "https://www.zappkode.com/cicr/marathi/webservices/success_story/getSuccessStory";
         appbar = "यशोगाथा";
-
         break;
 
       case "Hin":
         api = "https://www.zappkode.com/cicr/hindi/webservices/success_story/getSuccessStory";
-        appbar = "सफलता की कहानी";
-
+        appbar = "सफलता की कहानियों";
         break;
 
       case "Gu":
         api = "https://www.zappkode.com/cicr/gujarati/webservices/success_story/getSuccessStory";
         appbar = "સક્સેસ સ્ટોરી";
-
         break;
 
       case "Kan":
         api = "https://www.zappkode.com/cicr/kannada/webservices/success_story/getSuccessStory";
         appbar = "ಯಶಸ್ಸಿನ ಕಥೆ";
-
         break;
 
     }

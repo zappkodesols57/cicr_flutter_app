@@ -23,7 +23,7 @@ class TabAboutApp extends StatelessWidget {
               indicatorColor: Colors.white,
               tabs: [
                 Tab(text: 'ABOUT CICR'),
-                Tab(text: '      ABOUT \nDEVELOPERS',),
+                Tab(text: '    ABOUT \nDEVELOPERS',),
                 Tab(text: 'ABOUT APP',)
               ],
             ),
@@ -397,7 +397,7 @@ class _AboutDevState extends State<AboutDev> {
                     ),
                     ListTile(
                       dense: false,
-                      title: Text("Marathi: Dr. S. Mahajan, \nDr. B. Fand and \nDr. H. B. Kumbhalkar. \n\nGujrati: Dr. Vivek Shah and Dr. Desai. \n\nKannada: Dr. Raghvendra and Dr. H. B. Santosh. \n\nHindi: Dr. Rachna Pande and Dr. Pooja Verma.",textAlign: TextAlign.center,
+                      title: Text("Marathi: Dr. S. Mahajan, Dr. B. Fand and Dr. H. B. Kumbhalkar. \n\nGujrati: Dr. Vivek Shah and Dr. Desai. \n\nKannada: Dr. Raghvendra and Dr. H. B. Santosh. \n\nHindi: Dr. Rachna Pande and Dr. Pooja Verma.",textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 14.0,
                               fontFamily: "PoppinsMedium")),

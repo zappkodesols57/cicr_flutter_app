@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../GalleryDetail.dart';
 import 'Profile.dart';
 
 class DiscussionForum extends StatefulWidget {
@@ -217,7 +218,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                         padding: EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(widget.name,style: TextStyle(color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold)),
-                          subtitle: Text("What Are Your Question?",style: TextStyle(color: Colors.red,fontSize: 12)),
+                          subtitle: Text("What Is Your Question?",style: TextStyle(color: Colors.red,fontSize: 12)),
                           leading: Container(
                             height: 100,
                             width: 50,
@@ -231,7 +232,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               )),
           Expanded(
@@ -317,19 +318,38 @@ class _DiscussionForumState extends State<DiscussionForum> {
                                                       fontSize: 12.0),
                                                 ),
                                                 SizedBox(height: 10.0,),
-                                                if (snapshot.data.list[index].file
-                                                    .endsWith('.JPG'))
-                                                  Center(
-                                                      child: Container(margin: EdgeInsets.only(right: 30),
-                                                          child: Image.network(
-                                                            snapshot
-                                                                .data
-                                                                .list[index]
-                                                                .file,height: 200.0,width: 200.0,fit: BoxFit.contain,))),
+                                                // if (snapshot.data.list[index].file
+                                                //     .endsWith('.JPG'))
+                                                //   Center(
+                                                //       child: Container(margin: EdgeInsets.only(right: 30),
+                                                //           child: Image.network(
+                                                //             snapshot
+                                                //                 .data
+                                                //                 .list[index]
+                                                //                 .file,height: 200.0,width: 200.0,fit: BoxFit.contain,))),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                   children: [
+                                                    if (snapshot.data.list[index].file.endsWith('.JPG'))
+                                                    Card(
+                                                      elevation: 0.0,
+                                                      child: IconButton(
+                                                        icon: Icon(
+                                                          Icons.image,
+                                                          size: 20.0,
+                                                        ),
+                                                        onPressed: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder: (context) => PhotoView(snapshot.data.list[index].file)));                                                        },
+                                                      ),
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                      ),
+                                                    ),
                                                     Card(
                                                       child: Padding(
                                                         padding: const EdgeInsets.all(13.5),
@@ -346,6 +366,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                                                           },
                                                           iconSize: 30.0,
 
+                                                          iconDisabledColor: Colors.black,
                                                         ),
                                                       ),
                                                       // IconButton(
@@ -428,6 +449,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
       ),
     );
   }
+
 
   Future<void> _showSelectionDialog(BuildContext context, String id) {
     return showDialog(
@@ -529,14 +551,11 @@ class _DiscussionForumState extends State<DiscussionForum> {
                                                           ],
                                                         ),
                                                         Text(
-                                                          snapshot
-                                                              .data
-                                                              .commentList[index]
-                                                              .comment,
+                                                          snapshot.data.commentList[index].comment,
                                                           style: TextStyle(
-                                                              fontFamily:
-                                                              "PoppinsMedium",
-                                                              fontSize: 12.0),
+                                                              fontFamily: "PoppinsMedium",
+                                                              fontSize: 12.0
+                                                          ),
                                                         ),
                                                         // if(snapshot.data.list[index].file.endsWith('.JPG'))
                                                         //   Center(child: Container(child: Image.network(snapshot.data.list[index].file))),
@@ -577,7 +596,9 @@ class _DiscussionForumState extends State<DiscussionForum> {
                                                         //     ),
                                                         //   ],
                                                         // ),
-                                                      ])),
+                                                      ]
+                                                  ),
+                                              ),
                                             ],
                                           ),
                                         ),

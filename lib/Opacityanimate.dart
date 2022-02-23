@@ -1,5 +1,6 @@
 import 'package:cicr_flutter_app/AppIntro.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/HomeScreen.dart';
+import 'package:cicr_flutter_app/Screens/UI/Language2.dart';
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,9 +51,9 @@ class _OpacityanimateState extends State<Opacityanimate> {
               print(isLogin);
 
               if (isLogin != "" || isLogin != null) {
-                Get.off(language == null ? Language() : HomeScreen());
+                Get.off(language == null ? Language2() : HomeScreen());
               } else {
-                Get.off(language == null ? Language() : Login_Page());
+                Get.off(language == null ? Language2() : Login_Page());
               }
             }
         ));

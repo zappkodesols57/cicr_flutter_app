@@ -1,9 +1,11 @@
+import 'dart:convert';
+
+import 'package:cicr_flutter_app/Model/Model_CicrDirectory.dart';
 import 'package:cicr_flutter_app/Screens/Dashboard.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/AskMe.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/ContactUs.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/About%20App.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/CICR%20Directory.dart';
-import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/ChangePass.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Discussion%20Forum.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Farmer%20Felicitation.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/Drawer/Important%20Website.dart';
@@ -16,8 +18,10 @@ import 'package:cicr_flutter_app/Screens/UI/Language.dart';
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -31,13 +35,25 @@ class HomeScreenState extends State<HomeScreen> {
 
 //list of widgets to call ontap
 
-  String drawer, drawer1, drawer2, drawer3, drawer4, drawer5, drawer6, drawer7,drawer8,drawer9,drawer10;
+  String drawer,
+      drawer1,
+      drawer2,
+      drawer3,
+      drawer4,
+      drawer5,
+      drawer6,
+      drawer7,
+      drawer8,
+      drawer9,
+      drawer10;
 
-  String language,name, cityName,img;
+  String language, name, cityName, img, api;
   String home, ask, gallery, news, contact;
   String number;
 
   TextEditingController cityController = new TextEditingController();
+
+  String file;
 
   void onItemTapped(int index) {
     setState(() {
@@ -80,6 +96,7 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "Gallery";
         news = "News";
         contact = "Contact Us";
+        api = "https://www.zappkode.com/cicr/english/webservices/cicr_directory/getDirectory";
 
         break;
 
@@ -101,6 +118,7 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "गॅलरी";
         news = "बातम्या";
         contact = "आमच्याशी संपर्क साधा";
+        api = "https://www.zappkode.com/cicr/marathi/webservices/cicr_directory/getDirectory";
 
         break;
 
@@ -122,6 +140,7 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "गेलरी";
         news = "समाचार";
         contact = "संपर्क करें";
+        api = "https://www.zappkode.com/cicr/hindi/webservices/cicr_directory/getDirectory";
 
         break;
 
@@ -143,6 +162,7 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "ગેલેરી";
         news = "સમાચાર";
         contact = "અમારો સંપર્ક કરો";
+        api = "https://www.zappkode.com/cicr/gujarati/webservices/cicr_directory/getDirectory";
 
         break;
 
@@ -164,10 +184,12 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "ಗ್ಯಾಲರಿ";
         news = "ಸುದ್ದಿ";
         contact = "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ";
+        api = "https://www.zappkode.com/cicr/kannada/webservices/cicr_directory/getDirectory";
 
         break;
     }
     setState(() {});
+    getCICRD();
   }
 
   @override
@@ -210,26 +232,58 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 padding: EdgeInsets.only(right: 10),
               ),
-              ListTile(
-                dense: true,
-                title: Text(drawer,
-                    style: TextStyle(
+              (name != "guest")
+                  ? ListTile(
+                      dense: true,
+                      title: Text(drawer,
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "PoppinsMedium")),
+                      leading: Icon(
+                        FontAwesomeIcons.solidUser,
                         color: Colors.green,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PoppinsMedium")),
-                leading: Icon(
-                  FontAwesomeIcons.solidUser,
-                  color: Colors.green,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Profile(name,number,img)));
-                },
-              ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Profile(name, number, img)));
+                      },
+                    )
+                  : ListTile(
+                      dense: true,
+                      title: Text(drawer10,
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "PoppinsMedium")),
+                      leading: Icon(
+                        FontAwesomeIcons.powerOff,
+                        color: Colors.green,
+                      ),
+                      onTap: () async {
+                        Navigator.of(context, rootNavigator: true)
+                            .pop('dialog');
+                        SharedPreferences preferences =
+                            await SharedPreferences.getInstance();
+                        preferences.setString("userID", "");
+                        preferences.setString("fullName", "");
+                        preferences.setString("mobile", "");
+                        preferences.setString("profilePic", "");
+                        preferences.setString("isLogin", "");
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login_Page()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                    ),
               Divider(
                 color: Colors.green,
               ),
@@ -250,7 +304,8 @@ class HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DiscussionForum(drawer1,name)));
+                          builder: (context) =>
+                              DiscussionForum(drawer1, name)));
                 },
               ),
               Divider(
@@ -333,8 +388,9 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CICRDirectory()));
+                  launch(file);
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => CICRDirectory()));
                 },
               ),
               Divider(
@@ -354,8 +410,10 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Language()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Language(language)));
                 },
               ),
               Divider(
@@ -382,67 +440,36 @@ class HomeScreenState extends State<HomeScreen> {
               Divider(
                 color: Colors.green,
               ),
-              if(name != "guest")
-              ListTile(
-                dense: true,
-                title: Text(drawer8,
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PoppinsMedium")),
-                leading: Icon(
-                  FontAwesomeIcons.powerOff,
-                  color: Colors.green,
-                ),
-                onTap: () async {
+              if (name != "guest")
+                ListTile(
+                  dense: true,
+                  title: Text(drawer8,
+                      style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "PoppinsMedium")),
+                  leading: Icon(
+                    FontAwesomeIcons.powerOff,
+                    color: Colors.green,
+                  ),
+                  onTap: () async {
                     Navigator.of(context, rootNavigator: true).pop('dialog');
-                    SharedPreferences preferences = await SharedPreferences.getInstance();
-                    preferences.setString("userID","");
-                    preferences.setString("fullName","");
-                    preferences.setString("mobile","");
-                    preferences.setString("profilePic","");
-                    preferences.setString("isLogin","");
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    preferences.setString("userID", "");
+                    preferences.setString("fullName", "");
+                    preferences.setString("mobile", "");
+                    preferences.setString("profilePic", "");
+                    preferences.setString("isLogin", "");
 
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => Login_Page()),
-                          (Route<dynamic> route) => false,
+                      (Route<dynamic> route) => false,
                     );
                   },
-              ),
-              if(name == "guest")
-              ListTile(
-                dense: true,
-                title: Text(drawer10,
-                    style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "PoppinsMedium")),
-                leading: Icon(
-                  FontAwesomeIcons.powerOff,
-                  color: Colors.green,
                 ),
-                onTap: () async {
-                    Navigator.of(context, rootNavigator: true).pop('dialog');
-                    SharedPreferences preferences = await SharedPreferences.getInstance();
-                    preferences.setString("userID","");
-                    preferences.setString("fullName","");
-                    preferences.setString("mobile","");
-                    preferences.setString("profilePic","");
-                    preferences.setString("isLogin","");
-
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login_Page()),
-                          (Route<dynamic> route) => false,
-                    );
-                  },
-              ),
-              Divider(
-                color: Colors.green,
-              ),
             ],
           ),
         ),
@@ -487,14 +514,34 @@ class HomeScreenState extends State<HomeScreen> {
         selectedLabelStyle: TextStyle(color: Colors.white, fontSize: 13),
         unselectedFontSize: 12,
         selectedIconTheme:
-        IconThemeData(color: Colors.white, opacity: 1.0, size: 24.0),
+            IconThemeData(color: Colors.white, opacity: 1.0, size: 24.0),
         unselectedIconTheme:
-        IconThemeData(color: Colors.white70, size: 15.0, opacity: 2.0),
+            IconThemeData(color: Colors.white70, size: 15.0, opacity: 2.0),
         unselectedItemColor: Colors.white70,
         unselectedLabelStyle: TextStyle(fontSize: 10, color: Colors.white),
         backgroundColor: Colors.green,
       ),
     );
+  }
+
+  Future<CICRDir> getCICRD() async {
+
+    final res = await http.post(
+      Uri.parse(api),
+
+    );
+
+    print(res.body);
+    print(res.statusCode);
+    var responseJson = json.decode(res.body);
+    if (200 == res.statusCode) {
+      print(directoryFromJson(res.body).list.length);
+      file = responseJson['path'][0]['file'];
+      print(file);
+      return directoryFromJson(res.body);
+    } else {
+      throw Exception('Failed to load List');
+    }
   }
 
   _showAlertDialog(BuildContext context) {
@@ -538,16 +585,16 @@ class HomeScreenState extends State<HomeScreen> {
                       ),
                       counterText: "",
                       contentPadding:
-                      const EdgeInsets.symmetric(vertical: 13.0),
+                          const EdgeInsets.symmetric(vertical: 13.0),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green, width: 0.5),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(35.0)),
+                            const BorderRadius.all(Radius.circular(35.0)),
                       ),
                       focusedBorder: new OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green, width: 0.5),
                         borderRadius:
-                        const BorderRadius.all(Radius.circular(35.0)),
+                            const BorderRadius.all(Radius.circular(35.0)),
                       ),
                       prefixIcon: Icon(
                         FontAwesomeIcons.city,
@@ -588,19 +635,23 @@ class HomeScreenState extends State<HomeScreen> {
                   if (cityController.text.isNotEmpty) {
                     Navigator.of(context).pop();
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                Weather(cityController.text)))
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Weather(cityController.text)))
                         .then((value) => cityController.clear());
                   } else {
-                    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Enter City",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white, fontSize: 16.0, fontFamily: "PoppinsMedium"),
-                    ),
+                    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          "Please Enter City",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontFamily: "PoppinsMedium"),
+                        ),
                         backgroundColor: Colors.green,
-                    duration: Duration(seconds: 2)));
+                        duration: Duration(seconds: 2)));
                   }
                 }),
           ],
