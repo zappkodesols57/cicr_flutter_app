@@ -2,16 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cicr_flutter_app/Model/Model_Comment.dart';
 import 'package:cicr_flutter_app/Model/Model_Discussion.dart';
-
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../GalleryDetail.dart';
 import 'Profile.dart';
+
 
 class DiscussionForum extends StatefulWidget {
   String title, name;
@@ -646,7 +645,8 @@ class _DiscussionForumState extends State<DiscussionForum> {
                     icon: Icon(
                       Icons.send,
                       color: Colors.green,
-                    ))
+                    ),
+                ),
               ],
             );
           });
