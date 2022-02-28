@@ -9,13 +9,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
-
 import 'ChangePass.dart';
 
 class Profile extends StatefulWidget {
-  String name, number, img;
+  String title,name, number, img;
 
-  Profile(this.name, this.number, this.img);
+  Profile(this.title,this.name, this.number, this.img);
 
   @override
   _ProfileState createState() => _ProfileState();
@@ -28,7 +27,7 @@ class _ProfileState extends State<Profile> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final ScrollController _controller = ScrollController();
 
-  String ProfileImg;
+  String ProfileImg,language,phone,name,change;
   int id;
 
   @override
@@ -141,6 +140,39 @@ class _ProfileState extends State<Profile> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     fnameController.text = prefs.getString("fullName");
     mobController.text = prefs.getString("mobile");
+    language = prefs.getString("language");
+
+    switch (language){
+      case "Eng" :
+        phone = "Phone Number";
+        name = "Name";
+        change = "Change Password";
+        break;
+
+      case "Mar":
+        phone = "फोन नंबर";
+        name = "नाव";
+        change = "पासवर्ड बदला";
+        break;
+
+      case "Hin":
+        phone = "फ़ोन नंबर";
+        name = "नाम";
+        change = "पासवर्ड बदलें";
+        break;
+
+      case "Gu":
+        phone = "ફોન નંબર";
+        name = "નામ";
+        change = "પાસવર્ડ બદલો";
+        break;
+
+      case "Kan":
+        phone = "ದೂರವಾಣಿ ಸಂಖ್ಯೆ";
+        name = "ಹೆಸರು";
+        change = "ಗುಪ್ತಪದವನ್ನು ಬದಲಿಸಿ";
+    }
+    setState(() {});
   }
 
   @override
@@ -202,7 +234,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          title: Text("Profile"),
+          title: Text(widget.title),
           elevation: 0,
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -316,7 +348,7 @@ class _ProfileState extends State<Profile> {
                   FontAwesomeIcons.user,
                   color: Colors.green,
                 ),
-                labelText: "Name",
+                labelText: name,
                 labelStyle: TextStyle(
                     fontFamily: "PoppinsLight",
                     fontSize: 13.0,
@@ -424,7 +456,7 @@ class _ProfileState extends State<Profile> {
                     Icons.phone,
                     color: Colors.green,
                   ),
-                  labelText: "Mobile Number",
+                  labelText: phone,
                   labelStyle: TextStyle(
                       fontFamily: "PoppinsLight",
                       fontSize: 13.0,
@@ -450,13 +482,15 @@ class _ProfileState extends State<Profile> {
                     MaterialPageRoute(builder: (context) => ChangePass()));
               },
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(25.0),
               ),
               color: Colors.green,
-              child: Text(
-                "Change Password",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 40.0,right: 40.0,top: 15,bottom: 15),
+                child: Text(
+                  change,
+                  style: TextStyle(fontFamily: "PoppinsMedium", color: Colors.white, fontWeight: FontWeight.bold),
+                ),
               ),
             ),
         ])));

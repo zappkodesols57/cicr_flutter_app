@@ -4,7 +4,6 @@ import 'package:cicr_flutter_app/Model/Model_FarmerOutreach.dart';
 import 'package:cicr_flutter_app/Model/Model_Production.dart';
 import 'package:cicr_flutter_app/Model/Model_Protection.dart';
 import 'package:cicr_flutter_app/Model/Model_Varieties.dart';
-import 'package:cicr_flutter_app/Model/Model_weekly.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/FactsAndFiguresYear.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/FarmerOutreach.dart';
 import 'package:cicr_flutter_app/Screens/HomeScreen/ProtectionCat.dart';

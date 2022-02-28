@@ -6,6 +6,8 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../GalleryDetail.dart';
@@ -341,7 +343,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                                                           Navigator.push(
                                                               context,
                                                               MaterialPageRoute(
-                                                                  builder: (context) => PhotoView(snapshot.data.list[index].file)));                                                        },
+                                                                  builder: (context) => PhotoView2(snapshot.data.list[index].file)));                                                        },
                                                       ),
                                                       shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -920,4 +922,53 @@ class _QuestionState extends State<Question> {
     }
   }
 
+}
+
+
+
+class PhotoView2 extends StatefulWidget {
+  String img;
+
+  PhotoView2(this.img);
+
+  @override
+  _PhotoView2State createState() => _PhotoView2State();
+}
+
+class _PhotoView2State extends State<PhotoView2> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: Expanded(
+          child: Container(
+            color: Colors.black,
+            padding: EdgeInsets.all(5),
+            child: PhotoViewGallery.builder(
+              scrollPhysics: new NeverScrollableScrollPhysics(),
+                backgroundDecoration: BoxDecoration(color: Colors.black),
+                itemCount: widget.img.length,
+                builder: (BuildContext context, int index) {
+                  return PhotoViewGalleryPageOptions(
+                      imageProvider: NetworkImage(widget.img),
+                      initialScale: PhotoViewComputedScale.contained,
+                      heroAttributes: PhotoViewHeroAttributes(tag: widget.img));
+                }),
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -251,7 +251,7 @@ class HomeScreenState extends State<HomeScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    Profile(name, number, img)));
+                                    Profile(drawer,name, number, img)));
                       },
                     )
                   : ListTile(

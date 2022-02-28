@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cicr_flutter_app/Model/Model_gallaryInfo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +127,7 @@ class _GalleryDetailState extends State<GalleryDetail> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PhotoView(_images[index])));
+                      builder: (context) => PhotoView(_images,index)));
               // return PhotoView(imageProvider: _images[index]);
               // launch(_images[index],forceWebView: true);
             },
@@ -191,17 +190,20 @@ class _GalleryDetailState extends State<GalleryDetail> {
 }
 
 class PhotoView extends StatefulWidget {
-  String img;
+      List img;
+      int index;
 
-  PhotoView(this.img);
+  PhotoView(this.img, this.index);
 
   @override
   _PhotoViewState createState() => _PhotoViewState();
 }
 
 class _PhotoViewState extends State<PhotoView> {
+
   @override
   Widget build(BuildContext context) {
+    PageController _pageController = PageController(initialPage: widget.index);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -221,15 +223,18 @@ class _PhotoViewState extends State<PhotoView> {
             color: Colors.black,
             padding: EdgeInsets.all(5),
             child: PhotoViewGallery.builder(
-                scrollPhysics: new NeverScrollableScrollPhysics(),
+                // scrollPhysics: new NeverScrollableScrollPhysics(),
                 backgroundDecoration: BoxDecoration(color: Colors.black),
                 itemCount: widget.img.length,
+                pageController: _pageController,
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
-                      imageProvider: NetworkImage(widget.img),
+                      imageProvider: NetworkImage(widget.img[index]),
                       initialScale: PhotoViewComputedScale.contained,
-                      heroAttributes: PhotoViewHeroAttributes(tag: widget.img));
-                }),
+                      heroAttributes: PhotoViewHeroAttributes(tag: widget.img)
+                  );
+                }
+                ),
           ),
         ),
       ),

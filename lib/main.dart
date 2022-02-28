@@ -7,9 +7,6 @@ import 'SplashScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // SharedPreferences preferences = await SharedPreferences.getInstance();
-  // await Firebase.initializeApp();
-  // var status = preferences.getString("isLogin");
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp( MyApp());
@@ -21,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'CICR',
-      // theme: ThemeData.dark(),
       theme: ThemeData(
         primaryColor: Colors.green,
       ),
