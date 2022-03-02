@@ -29,7 +29,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
   TextEditingController CMTcontroller = TextEditingController();
 
   String title, language,profile;
-  String api, forum, apiComment, send;
+  String api, forum, apiComment, send,question;
 
   String topicId;
 
@@ -57,6 +57,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
         api =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getForumTopics";
         forum = "Discussion Forum";
+        question = "What is your question?";
         apiComment =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getCommentsByTopicId";
         send =
@@ -69,6 +70,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
         forum = "चर्चा मंच";
         apiComment =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getCommentsByTopicId";
+        question = "तुमचा प्रश्न काय आहे?";
         send =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/addCommentForTopicId";
         break;
@@ -77,6 +79,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
         api =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getForumTopics";
         forum = "चर्चा मंच";
+        question = "आपका प्रश्न क्या है?";
         apiComment =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getCommentsByTopicId";
         send =
@@ -87,6 +90,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
         api =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getForumTopics";
         forum = "ચર્ચા મંચ";
+        question = "તમારો પ્રશ્ન શું છે?";
         apiComment =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getCommentsByTopicId";
         send =
@@ -97,6 +101,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
         api =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getForumTopics";
         forum = "ಚರ್ಚಾ ವೇದಿಕೆ";
+        question = "ನಿಮ್ಮ ಪ್ರಶ್ನೆ ಏನು?";
         apiComment =
         "https://www.zappkode.com/cicr/english/webservices/discussion_forum/getCommentsByTopicId";
         send =
@@ -219,7 +224,7 @@ class _DiscussionForumState extends State<DiscussionForum> {
                         padding: EdgeInsets.all(5),
                         child: ListTile(
                           title: Text(widget.name,style: TextStyle(color: Colors.green,fontSize: 15,fontWeight: FontWeight.bold)),
-                          subtitle: Text("What Is Your Question?",style: TextStyle(color: Colors.red,fontSize: 12)),
+                          subtitle: Text(question,style: TextStyle(color: Colors.red,fontSize: 12)),
                           leading: Container(
                             height: 100,
                             width: 50,

@@ -19,7 +19,7 @@ class SuccessStr {
 
   factory SuccessStr.fromJson(Map<String, dynamic> json) => SuccessStr(
     status: json["status"],
-    list: List<SuccessSToryList>.from(json["list"].map((x) => SuccessSToryList.fromJson(x))),
+    list: List<SuccessSToryList>.from(json["list"].map((x) => SuccessSToryList.fromJson(x))).reversed.toList(),
   );
 
   Map<String, dynamic> toJson() => {

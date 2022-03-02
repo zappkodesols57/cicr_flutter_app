@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cicr_flutter_app/Model/Model_CicrDirectory.dart';
 import 'package:cicr_flutter_app/Screens/Dashboard.dart';
@@ -48,7 +49,7 @@ class HomeScreenState extends State<HomeScreen> {
       drawer10;
 
   String language, name, cityName, img, api;
-  String home, ask, gallery, news, contact;
+  String home, ask, gallery, news, contact,exitApp,yes,no;
   String number;
 
   TextEditingController cityController = new TextEditingController();
@@ -96,12 +97,15 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "Gallery";
         news = "News";
         contact = "Contact Us";
+        exitApp = "Do you want to exit this app?";
+        yes ="Yes";
+        no = "No";
         api = "https://www.zappkode.com/cicr/english/webservices/cicr_directory/getDirectory";
 
         break;
 
       case "Mar":
-        drawer = "प्रोफ़ाइल";
+        drawer = "प्रोफाइल";
         drawer1 = "चर्चा मंच";
         drawer2 = "महत्वाची वेबसाईट";
         drawer3 = "शेतकरी सत्कार";
@@ -118,6 +122,9 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "गॅलरी";
         news = "बातम्या";
         contact = "आमच्याशी संपर्क साधा";
+        exitApp = "तुम्हाला या अॅपमधून बाहेर पडायचे आहे का?";
+        yes ="होय";
+        no ="नाही";
         api = "https://www.zappkode.com/cicr/marathi/webservices/cicr_directory/getDirectory";
 
         break;
@@ -140,6 +147,9 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "गेलरी";
         news = "समाचार";
         contact = "संपर्क करें";
+        exitApp = "क्या आप इस ऐप से बाहर निकलना चाहते हैं?";
+        yes = "हां";
+        no ="नहीं";
         api = "https://www.zappkode.com/cicr/hindi/webservices/cicr_directory/getDirectory";
 
         break;
@@ -162,6 +172,9 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "ગેલેરી";
         news = "સમાચાર";
         contact = "અમારો સંપર્ક કરો";
+        exitApp = "શું તમે આ એપ્લિકેશનમાંથી બહાર નીકળવા માંગો છો?";
+        yes = "હા";
+        no = "ના";
         api = "https://www.zappkode.com/cicr/gujarati/webservices/cicr_directory/getDirectory";
 
         break;
@@ -184,6 +197,9 @@ class HomeScreenState extends State<HomeScreen> {
         gallery = "ಗ್ಯಾಲರಿ";
         news = "ಸುದ್ದಿ";
         contact = "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ";
+        exitApp = "ನೀವು ಈ ಅಪ್ಲಿಕೇಶನ್‌ನಿಂದ ನಿರ್ಗಮಿಸಲು ಬಯಸುವಿರಾ?";
+        yes ="ಹೌದು";
+        no ="ಸಂ";
         api = "https://www.zappkode.com/cicr/kannada/webservices/cicr_directory/getDirectory";
 
         break;
@@ -201,7 +217,8 @@ class HomeScreenState extends State<HomeScreen> {
       new News(),
       new TabContact(0),
     ];
-    return new Scaffold(
+    return WillPopScope(onWillPop: ()=> showExitApp(context),
+     child: Scaffold(
       body: Center(
         child: widgetOptions.elementAt(selectedIndex),
       ),
@@ -521,7 +538,7 @@ class HomeScreenState extends State<HomeScreen> {
         unselectedLabelStyle: TextStyle(fontSize: 10, color: Colors.white),
         backgroundColor: Colors.green,
       ),
-    );
+    ));
   }
 
   Future<CICRDir> getCICRD() async {
@@ -659,4 +676,51 @@ class HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
+
+  showExitApp(BuildContext context) async {
+    return await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Container(
+                height: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(exitApp),
+                    SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              print('yes selected');
+                              exit(0);
+                            },
+                            child: Text(yes),
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.red.shade800),
+                          ),
+                        ),
+                        SizedBox(width: 15),
+                        Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                print('no selected');
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(no, style: TextStyle(color: Colors.black)),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                              ),
+                            ))
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+  }
+

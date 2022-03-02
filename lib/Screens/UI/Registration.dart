@@ -84,7 +84,7 @@ class _RegistrationState extends State<Registration> {
         break;
 
       case "Gu":
-        user = "ફોન નંબર";
+        user = "વપરાશકર્તા નામ";
         mobile = "મોબાઇલ નંબર";
         password = "પાસવર્ડ";
         cPass = "પાસવર્ડની પુષ્ટિ કરો";
@@ -476,7 +476,6 @@ class _RegistrationState extends State<Registration> {
                           validate();
                         }),
                   ),
-
                 ],
               ),
             ),

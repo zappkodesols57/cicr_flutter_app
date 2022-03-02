@@ -131,7 +131,7 @@ class _NewsState extends State<News> {
                                   textAlign: TextAlign.end,),
                                 leading: Image.asset("assets/logo.png",height: 30.0,width: 30.0,),
                                 onTap: () {
-                                  launch(snapshot.data.news[index].url);
+                                  launch(snapshot.data.news[index].url,enableJavaScript: true);
                                 },
                               ),
                             ),

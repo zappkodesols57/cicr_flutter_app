@@ -19,7 +19,7 @@ class NewsPojo {
 
   factory NewsPojo.fromJson(Map<String, dynamic> json) => NewsPojo(
     status: json["status"],
-    news: List<NewsModel>.from(json["news"].map((x) => NewsModel.fromJson(x))),
+    news: List<NewsModel>.from(json["news"].map((x) => NewsModel.fromJson(x))).reversed.toList(),
   );
 
   Map<String, dynamic> toJson() => {
