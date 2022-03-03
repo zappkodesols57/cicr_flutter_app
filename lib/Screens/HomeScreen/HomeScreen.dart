@@ -682,43 +682,42 @@ class HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              content: Container(
-                height: 120,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(exitApp),
-                    SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              print('yes selected');
-                              exit(0);
-                            },
-                            child: Text(yes),
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.red.shade800),
-                          ),
-                        ),
-                        SizedBox(width: 15),
-                        Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                print('no selected');
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(no, style: TextStyle(color: Colors.black)),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                              ),
-                            ))
-                      ],
-                    )
-                  ],
+              content: SingleChildScrollView(
+                child: Container(
+                  height: 60,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(exitApp),
+
+                    ],
+                  ),
                 ),
               ),
+              actions: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print('yes selected');
+                      exit(0);
+                    },
+                    child: Text(yes),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.red.shade800),
+                  ),
+                ),
+                Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print('no selected');
+                        Navigator.of(context).pop();
+                      },
+                      child: Text(no, style: TextStyle(color: Colors.black)),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                      ),
+                    ))
+              ],
             );
           });
     }

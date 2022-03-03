@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:http/http.dart' as http;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -28,8 +29,10 @@ class _ChangePassState extends State<ChangePass> {
   bool _obscureTextSignupConfirm = true;
   String id,language,api,user;
   String appBar,oldPass,newpass,confpass,update;
-  String snack1,snack2,snack3,snack4,snack5;
+  String snack1,snack2,snack3,snack4,snack5,snack6;
   String Invalid_Mobile_Number,server_error,passSuccess;
+
+  String password;
 
 
   @override
@@ -41,6 +44,7 @@ class _ChangePassState extends State<ChangePass> {
   Future<void> autoFill() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     language = prefs.getString("language");
+    password = prefs.getString("password");
 
     switch (language) {
       case "Eng":
@@ -59,6 +63,7 @@ class _ChangePassState extends State<ChangePass> {
         snack3 = "Please enter Confirm Password";
         snack4 = "Password must contain at least 8 characters";
         snack5 = "Password not match";
+        snack6 = "New Password should not be same as old password";
         api = "https://www.zappkode.com/cicr/english/webservices/farmerregistration/profileChangePassword";
 
         break;
@@ -79,6 +84,7 @@ class _ChangePassState extends State<ChangePass> {
         snack3 = "कृपया पासवर्ड कन्फर्म करा";
         snack4 = "पासवर्डमध्ये किमान 8 वर्ण असणे आवश्यक आहे";
         snack5 = "पासवर्ड जुळत नाही";
+        snack6 = "नवीन पासवर्ड जुन्या पासवर्डसारखा नसावा";
         api = "https://www.zappkode.com/cicr/marathi/webservices/farmerregistration/profileChangePassword";
 
         break;
@@ -99,6 +105,7 @@ class _ChangePassState extends State<ChangePass> {
         snack3 = "कृपया पासवर्ड की पुष्टि करें दर्ज करें";
         snack4 = "पासवर्ड में कम से कम 8 अक्षर होने चाहिए";
         snack5 = "पासवर्ड मेल नहीं खाता";
+        snack6 = "नया पासवर्ड पुराने पासवर्ड जैसा नहीं होना चाहिए";
         api = "https://www.zappkode.com/cicr/marathi/webservices/farmerregistration/profileChangePassword";
 
         break;
@@ -119,6 +126,7 @@ class _ChangePassState extends State<ChangePass> {
         snack3 = "કૃપા કરીને કન્ફર્મ પાસવર્ડ દાખલ કરો";
         snack4 = "પાસવર્ડમાં ઓછામાં ઓછા 8 અક્ષરો હોવા જોઈએ";
         snack5 = "પાસવર્ડ મેળ ખાતો નથી";
+        snack6 = "નવો પાસવર્ડ જૂના પાસવર્ડ જેવો ન હોવો જોઈએ";
         api = "https://www.zappkode.com/cicr/gujarati/webservices/farmerregistration/profileChangePassword";
 
         break;
@@ -139,6 +147,7 @@ class _ChangePassState extends State<ChangePass> {
         snack3 = "ದಯವಿಟ್ಟು ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ದೃಢೀಕರಿಸಿ ನಮೂದಿಸಿ";
         snack4 = "ಪಾಸ್ವರ್ಡ್ ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು";
         snack5 = "ಪಾಸ್ವರ್ಡ್ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ";
+        snack6 = "ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್‌ನಂತೆಯೇ ಇರಬಾರದು";
         api = "https://www.zappkode.com/cicr/kannada/webservices/farmerregistration/profileChangePassword";
 
 
@@ -194,6 +203,9 @@ class _ChangePassState extends State<ChangePass> {
                     focusNode: myFocusNodeOldPass,
                     controller: oldPassController,
                     obscureText: _obscureTextOldPass,
+                    inputFormatters: [
+                  LengthLimitingTextInputFormatter(15),
+                    ],
                     onSubmitted: (value){
                       // validatePassword(value) ? showInSnackBar('Valid Password', 2) : showInSnackBar(warn, 8);
                     },
@@ -243,6 +255,9 @@ class _ChangePassState extends State<ChangePass> {
                     focusNode: myFocusNodePassword,
                     controller: passwordController,
                     obscureText: _obscureTextSignup,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(15),
+                    ],
                     onSubmitted: (value){
                       // validatePassword(value) ? showInSnackBar('Valid Password', 2) : showInSnackBar(warn, 8);
                     },
@@ -290,6 +305,9 @@ class _ChangePassState extends State<ChangePass> {
                     focusNode: myFocusNodePasswordConfirm,
                     controller: confirmPasswordController,
                     obscureText: _obscureTextSignupConfirm,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(15),
+                    ],
                     style: TextStyle(
                         fontFamily: "PoppinsLight",
                         fontSize: 13.0,
@@ -400,6 +418,10 @@ class _ChangePassState extends State<ChangePass> {
     print(user);
 
 
+    if ((passwordController.text == oldPassController.text)) {
+      showInSnackBar(snack6,2);
+      return null;
+    }
     if ((oldPassController.text.isEmpty)) {
       showInSnackBar(snack1,2);
       return null;
@@ -443,17 +465,20 @@ class _ChangePassState extends State<ChangePass> {
     if(response.statusCode == 200) {
       showInSnackBar(passSuccess, 2);
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      // for (String key in preferences.getKeys()) {
-      //   if (key != "userID" && key != "fullName" && key != "mobile" && key!="profilePic") {
-      //     preferences.remove(key);
-      //   }
-      // }
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => Login_Page()),
-            (Route<dynamic> route) => false,
-      );
-      // Navigator.pop(context);
+      preferences.setString("password","");
+// for (String key in preferences.getKeys()) {
+// if (key != "userID" && key != "fullName" && key != "mobile" && key!="profilePic") {
+// preferences.remove(key);
+// }
+// }
+// Navigator.pushAndRemoveUntil(
+// context,
+// MaterialPageRoute(builder: (context) => Login_Page()),
+// (Route<dynamic> route) => false,
+// );
+      Future.delayed(const Duration(seconds: 2),(){
+        Navigator.of(context, rootNavigator: true).pop();
+      });
     }else{
       showInSnackBar(server_error,2);
     }

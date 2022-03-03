@@ -19,7 +19,7 @@ class _RegistrationState extends State<Registration> {
 
   String language;
   String snackbar1,snackbar2,snackbar3;
-  String snackbar4,snackbar5,snackbar6,snackbar7;
+  String snackbar4,snackbar5,snackbar6,snackbar7,password8;
 
   @override
   void initState() {
@@ -46,6 +46,7 @@ class _RegistrationState extends State<Registration> {
         snackbar5 = "Please enter valid Number";
         snackbar6 = "Please enter valid Password";
         snackbar7 = "Password Does not match";
+        password8 = "Password must be contain at least 8 characters";
 
         break;
 
@@ -63,6 +64,7 @@ class _RegistrationState extends State<Registration> {
         snackbar5 = "कृपया वैध क्रमांक प्रविष्ट करा";
         snackbar6 = "कृपया वैध पासवर्ड टाका";
         snackbar7 = "पासवर्ड जुळत नाही";
+        password8 = "पासवर्डमध्ये किमान 8 वर्ण असणे आवश्यक आहे";
 
         break;
 
@@ -80,6 +82,7 @@ class _RegistrationState extends State<Registration> {
         snackbar5 = "कृपया मान्य संख्या दर्ज करें";
         snackbar6 = "कृपया मान्य पासवर्ड दर्ज करें";
         snackbar7 = "पासवर्ड मैच नहीं कर रहा है";
+        password8 = "पासवर्ड में कम से कम 8 अक्षर होने चाहिए";
 
         break;
 
@@ -97,6 +100,7 @@ class _RegistrationState extends State<Registration> {
         snackbar5 = "કૃપા કરીને માન્ય નંબર દાખલ કરો";
         snackbar6 = "કૃપા કરીને માન્ય પાસવર્ડ દાખલ કરો";
         snackbar7 = "પાસવર્ડ મેળ ખાતો નથી";
+        password8 = "પાસવર્ડમાં ઓછામાં ઓછા 8 અક્ષરો હોવા જોઈએ";
 
         break;
 
@@ -114,6 +118,7 @@ class _RegistrationState extends State<Registration> {
         snackbar5 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ";
         snackbar6 = "ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ";
         snackbar7 = "ಪಾಸ್ವರ್ಡ್ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ";
+        password8 = "ಪಾಸ್ವರ್ಡ್ ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು";
 
         break;
 
@@ -317,9 +322,9 @@ class _RegistrationState extends State<Registration> {
                       obscureText: _obscureTextSignup,
                       onSubmitted: (value) {
                         // validatePassword(value) ? showInSnackBar('Valid Password', 2) : showInSnackBar(warn, 8);
-                        // if (value.length < 8)
-                        //   showInSnackBar(
-                        //       "Password must be contain at least 8 characters", 2);
+                        if (value.length < 8)
+                          showInSnackBar(
+                              password8, 2);
                       },
                       style: TextStyle(
                           fontFamily: "PoppinsLight",
@@ -330,7 +335,6 @@ class _RegistrationState extends State<Registration> {
                         LengthLimitingTextInputFormatter(15)
                       ],
                       decoration: InputDecoration(
-
                         border: InputBorder.none,
                         contentPadding: const EdgeInsets.symmetric(vertical: 13.0),
                         enabledBorder: OutlineInputBorder(

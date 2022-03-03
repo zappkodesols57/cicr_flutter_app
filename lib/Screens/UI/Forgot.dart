@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,10 +30,10 @@ class FogotPassState extends State<FogotPass> {
   bool _obscureTextSignupConfirm = true;
 
 
-  String id,language;
+  String id,language,password;
   String appBar,mobileno,newpass,confpass,update;
   String Invalid_Mobile_Number,server_error,passSuccess;
-  String snack1,snack2,snack3,snack4,snack5;
+  String snack1,snack2,snack3,snack4,snack5,snack6;
 
 
   @override
@@ -46,6 +45,7 @@ class FogotPassState extends State<FogotPass> {
   Future<void> autoFill() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     language = prefs.getString("language");
+    password = prefs.getString("password");
 
     switch (language) {
       case "Eng":
@@ -64,6 +64,7 @@ class FogotPassState extends State<FogotPass> {
         snack3 = "Please enter Confirm Password";
         snack4 = "Password must contain at least 8 characters";
         snack5 = "Password not match";
+        snack6 = "Entered password is same as old password";
 
         break;
 
@@ -83,6 +84,7 @@ class FogotPassState extends State<FogotPass> {
         snack3 = "कृपया पासवर्ड कन्फर्म करा";
         snack4 = "पासवर्डमध्ये किमान 8 वर्ण असणे आवश्यक आहे";
         snack5 = "पासवर्ड जुळत नाही";
+        snack6 = "एंटर केलेला पासवर्ड जुन्या पासवर्डसारखाच आहे";
 
         break;
 
@@ -102,6 +104,7 @@ class FogotPassState extends State<FogotPass> {
         snack3 = "कृपया पासवर्ड की पुष्टि करें दर्ज करें";
         snack4 = "पासवर्ड में कम से कम 8 अक्षर होने चाहिए";
         snack5 = "पासवर्ड मेल नहीं खाता";
+        snack6 = "दर्ज पासवर्ड पुराने पासवर्ड के समान है";
 
         break;
 
@@ -121,6 +124,7 @@ class FogotPassState extends State<FogotPass> {
         snack3 = "કૃપા કરીને કન્ફર્મ પાસવર્ડ દાખલ કરો";
         snack4 = "પાસવર્ડમાં ઓછામાં ઓછા 8 અક્ષરો હોવા જોઈએ";
         snack5 = "પાસવર્ડ મેળ ખાતો નથી";
+        snack6 = "દાખલ કરેલ પાસવર્ડ જૂના પાસવર્ડ જેવો જ છે";
 
         break;
 
@@ -140,6 +144,7 @@ class FogotPassState extends State<FogotPass> {
         snack3 = "ದಯವಿಟ್ಟು ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ದೃಢೀಕರಿಸಿ ನಮೂದಿಸಿ";
         snack4 = "ಪಾಸ್ವರ್ಡ್ ಕನಿಷ್ಠ 8 ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬೇಕು";
         snack5 = "ಪಾಸ್ವರ್ಡ್ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ";
+        snack6 = "ನಮೂದಿಸಿದ ಪಾಸ್‌ವರ್ಡ್ ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್‌ನಂತೆಯೇ ಇರುತ್ತದೆ";
 
 
         break;
@@ -484,6 +489,7 @@ class FogotPassState extends State<FogotPass> {
 
     if (mobileController.text.isEmpty) {
       showInSnackBar(snack1, 2);
+
       return null;
     }
 
@@ -497,6 +503,10 @@ class FogotPassState extends State<FogotPass> {
     }
     if (passwordController.text.length < 8) {
       showInSnackBar(snack4, 2);
+      return null;
+    }
+    if (passwordController.text == password|| confirmPasswordController.text == password) {
+      showInSnackBar(snack6, 2);
       return null;
     }
     if (passwordController.text != confirmPasswordController.text) {

@@ -161,6 +161,10 @@ class _SuccessStoryState extends State<SuccessStory> {
                                 ),
                                 leading: Image.network(snapshot.data.list[index].file,height: 40.0,width: 40.0,fit: BoxFit.cover,),
                                 onTap: () {
+                                  if(snapshot.data.list[index].pdf.isEmpty || !snapshot.data.list[index].pdf.contains(".pdf") ){
+                                    showInSnackBar("No Data Available");
+                                  }
+                                  else
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -181,5 +185,19 @@ class _SuccessStoryState extends State<SuccessStory> {
         },
       ),
     );
+  }
+  void showInSnackBar(String value) {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    _scaffoldKey.currentState?.removeCurrentSnackBar();
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        value,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            color: Colors.white, fontSize: 16.0, fontFamily: "PoppinsMedium"),
+      ),
+      backgroundColor: Colors.green,
+      duration: Duration(seconds: 2),
+    ));
   }
 }

@@ -238,6 +238,9 @@ class _Login_PageState extends State<Login_Page> {
                         focusNode: myFocusNodePasswordLogin,
                         controller: loginPasswordController,
                         obscureText: _obscureTextLogin,
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(15),
+                        ],
                         style: TextStyle(
                             fontFamily: "PoppinsLight",
                             fontSize: 15.0,
@@ -482,6 +485,7 @@ class _Login_PageState extends State<Login_Page> {
           prefs.setString("mobile", responseJson['mobile_no']);
           prefs.setString("profilePic", responseJson['profile_pic']);
           prefs.setString("isLogin", "1");
+          prefs.setString("password", loginPasswordController.text.toString());
 
 
           Navigator.pushAndRemoveUntil(
