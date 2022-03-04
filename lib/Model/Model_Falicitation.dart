@@ -17,7 +17,7 @@ class FarmerFalicitation {
 
   factory FarmerFalicitation.fromJson(Map<String, dynamic> json) => FarmerFalicitation(
     status: json["status"],
-    list: List<Far_Falicitation>.from(json["list"].map((x) => Far_Falicitation.fromJson(x))),
+    list: List<Far_Falicitation>.from(json["list"].map((x) => Far_Falicitation.fromJson(x))).reversed.toList(),
   );
 
   Map<String, dynamic> toJson() => {

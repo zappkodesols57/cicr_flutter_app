@@ -50,12 +50,12 @@ class _DashboardState extends State<Dashboard> {
 
     switch (widget.language) {
       case "Eng":
-        varieties = "Varieties And Hybrid";
-        production = "Production Technology";
-        protection = "Protection Technology";
-        facts = "Facts And Figures";
-        farmer = "Farmers Outreach";
-        weekly = "Weekly Advisory";
+        varieties = "Varieties And \nHybrid";
+        production = "Production \nTechnology";
+        protection = "Protection \nTechnology";
+        facts = "Facts And \nFigures";
+        farmer = "Farmers \nOutreach";
+        weekly = "Weekly \nAdvisory";
         api =
             "https://www.zappkode.com/cicr/english/webservices/Varieties_and_hybrids/get_category_by_varities_and_hybrids";
         api2 =
@@ -149,6 +149,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return new Scaffold(
       key: _scaffoldKey,
       // appBar: AppBar(

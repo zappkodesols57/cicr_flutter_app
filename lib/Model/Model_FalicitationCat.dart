@@ -17,7 +17,7 @@ class FalicitationCat {
 
   factory FalicitationCat.fromJson(Map<String, dynamic> json) => FalicitationCat(
     status: json["status"],
-    list: List<Faci_Cat>.from(json["list"].map((x) => Faci_Cat.fromJson(x))),
+    list: List<Faci_Cat>.from(json["list"].map((x) => Faci_Cat.fromJson(x))).reversed.toList(),
   );
 
   Map<String, dynamic> toJson() => {

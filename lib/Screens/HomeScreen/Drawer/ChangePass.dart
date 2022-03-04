@@ -30,7 +30,7 @@ class _ChangePassState extends State<ChangePass> {
   String id,language,api,user;
   String appBar,oldPass,newpass,confpass,update;
   String snack1,snack2,snack3,snack4,snack5,snack6;
-  String Invalid_Mobile_Number,server_error,passSuccess;
+  String Invalid_Mobile_Number,server_error,passSuccess,failed;
 
   // String password;
 
@@ -53,9 +53,11 @@ class _ChangePassState extends State<ChangePass> {
         confpass = "Confirm New Password *";
         update = "Update";
 
+
         Invalid_Mobile_Number = "Invalid Mobile Number or Password";
         server_error = "Server Error";
         passSuccess = "Password changed successfully";
+        failed = "Old password does not match";
 
         snack1 = "Please enter Old Password";
         snack2 = "Please enter New Password";
@@ -77,6 +79,7 @@ class _ChangePassState extends State<ChangePass> {
         Invalid_Mobile_Number = "अवैध मोबाईल नंबर किंवा पासवर्ड";
         server_error = "सर्व्हर त्रुटी";
         passSuccess = "पासवर्ड यशस्वीरित्या बदलला";
+        failed = "जुना पासवर्ड जुळत नाही";
 
         snack1 = "कृपया जुना पासवर्ड टाका";
         snack2 = "कृपया नवीन पासवर्ड टाका";
@@ -98,6 +101,7 @@ class _ChangePassState extends State<ChangePass> {
         Invalid_Mobile_Number = "अमान्य मोबाइल नंबर या पासवर्ड";
         server_error = "सर्वर त्रुटि";
         passSuccess = "पासवर्ड सफलतापूर्वक बदला गया";
+        failed = "पुराना पासवर्ड मेल नहीं खाता";
 
         snack1 = "कृपया पुराना पासवर्ड दर्ज करें";
         snack2 = "कृपया नया पासवर्ड दर्ज करें";
@@ -119,6 +123,7 @@ class _ChangePassState extends State<ChangePass> {
         Invalid_Mobile_Number = "અમાન્ય મોબાઇલ નંબર અથવા પાસવર્ડ";
         server_error = "સર્વર ભૂલ";
         passSuccess = "પાસવર્ડ સફળતાપૂર્વક બદલાયો";
+        failed = "જૂનો પાસવર્ડ મેળ ખાતો નથી";
 
         snack1 = "કૃપા કરીને જૂનો પાસવર્ડ દાખલ કરો";
         snack2 = "કૃપા કરીને નવો પાસવર્ડ દાખલ કરો";
@@ -140,6 +145,7 @@ class _ChangePassState extends State<ChangePass> {
         Invalid_Mobile_Number = "ಅಮಾನ್ಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್";
         server_error = "ಸರ್ವರ್ ದೋಷ";
         passSuccess = "ಪಾಸ್ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಬದಲಾಗಿದೆ";
+        failed = "ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ";
 
         snack1 = "ದಯವಿಟ್ಟು ಹಳೆಯ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
         snack2 = "ದಯವಿಟ್ಟು ಹೊಸ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ";
@@ -471,9 +477,10 @@ class _ChangePassState extends State<ChangePass> {
     print(response.body);
 
     if(response.statusCode == 200) {
-      showInSnackBar(passSuccess, 2);
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString("password","");
+      if(responseJson['status'] != "Failed") {
+        showInSnackBar(passSuccess, 2);
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setString("password", "");
 // for (String key in preferences.getKeys()) {
 // if (key != "userID" && key != "fullName" && key != "mobile" && key!="profilePic") {
 // preferences.remove(key);
@@ -484,9 +491,12 @@ class _ChangePassState extends State<ChangePass> {
 // MaterialPageRoute(builder: (context) => Login_Page()),
 // (Route<dynamic> route) => false,
 // );
-      Future.delayed(const Duration(seconds: 2),(){
-        Navigator.of(context, rootNavigator: true).pop();
-      });
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context, rootNavigator: true).pop();
+        });
+      }else{
+        showInSnackBar(failed, 2);
+      }
     }else{
       showInSnackBar(server_error,2);
     }
