@@ -26,17 +26,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-class HomeActivity extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CICR',
-      theme: ThemeData(
-        primaryColor: Colors.green,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
-    );
-  }
-}

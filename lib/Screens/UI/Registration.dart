@@ -503,7 +503,11 @@ class _RegistrationState extends State<Registration> {
       showInSnackBar(snackbar6,2);
       return null;
     }
-    if (signupCPassController.text.isEmpty) {
+    if (signupPassController.text.length < 8) {
+      showInSnackBar(password8,2);
+      return null;
+    }
+    if (signupCPassController.text.isEmpty || signupPassController.text != signupCPassController.text ) {
       showInSnackBar(snackbar7,2);
       return null;
     }

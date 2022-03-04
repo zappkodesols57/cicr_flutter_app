@@ -32,7 +32,7 @@ class _ChangePassState extends State<ChangePass> {
   String snack1,snack2,snack3,snack4,snack5,snack6;
   String Invalid_Mobile_Number,server_error,passSuccess;
 
-  String password;
+  // String password;
 
 
   @override
@@ -44,7 +44,6 @@ class _ChangePassState extends State<ChangePass> {
   Future<void> autoFill() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     language = prefs.getString("language");
-    password = prefs.getString("password");
 
     switch (language) {
       case "Eng":
@@ -418,10 +417,7 @@ class _ChangePassState extends State<ChangePass> {
     print(user);
 
 
-    if ((passwordController.text == oldPassController.text)) {
-      showInSnackBar(snack6,2);
-      return null;
-    }
+
     if ((oldPassController.text.isEmpty)) {
       showInSnackBar(snack1,2);
       return null;
@@ -432,6 +428,18 @@ class _ChangePassState extends State<ChangePass> {
     }
     if(confirmPasswordController.text.isEmpty){
       showInSnackBar(snack3,2);
+      return null;
+    }
+    if(confirmPasswordController.text.length < 8 || passwordController.text.length < 8 ){
+      showInSnackBar(snack4,2);
+      return null;
+    }
+    if(confirmPasswordController.text != passwordController.text){
+      showInSnackBar(snack5,2);
+      return null;
+    }
+    if ((passwordController.text == oldPassController.text)) {
+      showInSnackBar(snack6,2);
       return null;
     }
     else

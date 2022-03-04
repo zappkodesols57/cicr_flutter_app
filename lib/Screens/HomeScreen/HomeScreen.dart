@@ -474,11 +474,14 @@ class HomeScreenState extends State<HomeScreen> {
                     Navigator.of(context, rootNavigator: true).pop('dialog');
                     SharedPreferences preferences =
                         await SharedPreferences.getInstance();
-                    preferences.setString("userID", "");
-                    preferences.setString("fullName", "");
-                    preferences.setString("mobile", "");
-                    preferences.setString("profilePic", "");
-                    preferences.setString("isLogin", "");
+                    setState(() {
+                      preferences.setString("userID", "");
+                      preferences.setString("fullName", "");
+                      preferences.setString("mobile", "");
+                      preferences.setString("profilePic", "");
+                      preferences.setString("isLogin", "");
+                    });
+
 
                     Navigator.pushAndRemoveUntil(
                       context,

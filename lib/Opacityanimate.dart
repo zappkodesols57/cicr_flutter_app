@@ -5,8 +5,6 @@ import 'package:cicr_flutter_app/Screens/UI/Login_Page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
-import 'Screens/UI/Language.dart';
 
 class Opacityanimate extends StatefulWidget {
   @override
@@ -50,10 +48,10 @@ class _OpacityanimateState extends State<Opacityanimate> {
               print(language);
               print(isLogin);
 
-              if (isLogin != "" || isLogin != null) {
-                Get.off(language == null ? Language2() : HomeScreen());
-              } else {
+              if (isLogin == "" || isLogin == null) {
                 Get.off(language == null ? Language2() : Login_Page());
+              } else {
+                Get.off(language == null ? Language2() : HomeScreen());
               }
             }
         ));

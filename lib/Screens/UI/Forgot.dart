@@ -535,6 +535,9 @@ class FogotPassState extends State<FogotPass> {
           passwordController.clear();
           confirmPasswordController.clear();
           showInSnackBar(passSuccess, 2);
+          Future.delayed(const Duration(seconds: 2),(){
+            Navigator.of(context, rootNavigator: true).pop();
+          });
           // showInSnackBar(password.message, 2);
         } else {
           // print(password.status);

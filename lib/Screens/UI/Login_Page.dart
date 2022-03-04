@@ -485,7 +485,8 @@ class _Login_PageState extends State<Login_Page> {
           prefs.setString("mobile", responseJson['mobile_no']);
           prefs.setString("profilePic", responseJson['profile_pic']);
           prefs.setString("isLogin", "1");
-          prefs.setString("password", loginPasswordController.text.toString());
+          // String password = loginPasswordController.text.toString();
+          // prefs.setString("password", password);
 
 
           Navigator.pushAndRemoveUntil(
